@@ -1,13 +1,11 @@
 /* eslint-disable no-param-reassign */
 //  background.js //
 function formatScheduleString(scheduleDayDiv) {
-  console.log('slackAgenda INNER TEXT: ', scheduleDayDiv.innerText);
-
-  const agendaStrings = scheduleDayDiv.innerText.split('\n');
-
   const MANY_WHITE_SPACES = /\s\s\s\s+/;
   const NUMBER_OR_BRACKET = /^\d|^[[]/;
-  const ZOOM_WORD = /^\s[|]\s/;
+  const ZOOM_PATTERN = /^\s[|]\s/;
+
+  const agendaStrings = scheduleDayDiv.innerText.split('\n');
 
   // BY REMOVING STRINGS WITH SPACES
   const scheduleTrybeNoSpaces = agendaStrings
@@ -15,21 +13,26 @@ function formatScheduleString(scheduleDayDiv) {
 
   // JOIN ZOOM WITH TIME
   scheduleTrybeNoSpaces.forEach((e, index, baseArray) => {
-    if (e.match(ZOOM_WORD)) {
+    if (e.match(ZOOM_PATTERN)) {
       baseArray[index - 1] = baseArray[index - 1].concat(e.substring(1));
     }
   });
 
-  const scheduleTrybe = scheduleTrybeNoSpaces
-    .filter((trybeString) => trybeString.match(NUMBER_OR_BRACKET));
-
-  console.log('scheduleTrybe: ', scheduleTrybe);
-  return scheduleTrybe;
+  return scheduleTrybeNoSpaces.filter((trybeString) => trybeString.match(NUMBER_OR_BRACKET));
 }
 
-// function getZoomLinks(elementsByClassName) {
-//   return elementsByClassName
-// }
+function getZoomLinks(scheduleDayDiv) {
+  const aTags = scheduleDayDiv.getElementsByTagName('a');
+
+  const zoomLinks = [];
+  Array.from(aTags).forEach((e) => {
+    if (e.href.includes('zoom.us')) {
+      zoomLinks.push(e.href);
+    }
+  });
+
+  return zoomLinks;
+}
 
 function getLastScheduleDay() {
   const P_RICH_TEXT_SECTION = document.getElementsByClassName('p-rich_text_section');
@@ -37,19 +40,19 @@ function getLastScheduleDay() {
 
   const slackAgenda = Array.from(P_RICH_TEXT_SECTION)
     .filter((e) => e.innerHTML.includes(agenda)).at(-1);
-  console.log('slackAgenda: ', slackAgenda);
 
   return slackAgenda;
 }
 
 function main() {
   const lastScheduleDay = getLastScheduleDay();
-  const trybeScheduleStr = formatScheduleString(lastScheduleDay);
+  console.log('slackAgenda: ', lastScheduleDay);
 
-  // const trybeScheduleZoomLinks = getZoomLinks(lastScheduleDay);
+  const trybeScheduleStr = formatScheduleString(lastScheduleDay);
+  const trybeScheduleZoomLinks = getZoomLinks(lastScheduleDay);
 
   console.log('trybeSchedule: ', trybeScheduleStr);
-  // console.log('trybeScheduleZoomLinks: ', trybeScheduleZoomLinks);
+  console.log('trybeScheduleZoomLinks: ', trybeScheduleZoomLinks);
 }
 
 main();
