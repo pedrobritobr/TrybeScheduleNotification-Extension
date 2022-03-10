@@ -1,15 +1,9 @@
 /* eslint-disable no-param-reassign */
 //  background.js //
-function formatScheduleString(elementsByTagName) {
-  const agenda = 'AGENDA DO DIA |';
+function formatScheduleString(scheduleDayDiv) {
+  console.log('slackAgenda INNER TEXT: ', scheduleDayDiv.innerText);
 
-  const slackAgenda = Array.from(elementsByTagName)
-    .filter((e) => e.innerHTML.includes(agenda)).at(-1);
-  console.log('slackAgenda: ', slackAgenda);
-
-  console.log('slackAgenda INNER TEXT: ', slackAgenda.innerText);
-
-  const agendaStrings = slackAgenda.innerText.split('\n');
+  const agendaStrings = scheduleDayDiv.innerText.split('\n');
 
   const MANY_WHITE_SPACES = /\s\s\s\s+/;
   const NUMBER_OR_BRACKET = /^\d|^[[]/;
@@ -33,13 +27,31 @@ function formatScheduleString(elementsByTagName) {
   return scheduleTrybe;
 }
 
-function main() {
+// function getZoomLinks(elementsByClassName) {
+//   return elementsByClassName
+// }
+
+function getLastScheduleDay() {
   const P_RICH_TEXT_SECTION = document.getElementsByClassName('p-rich_text_section');
+  const agenda = 'AGENDA DO DIA |';
 
-  const trybeSchedule = formatScheduleString(P_RICH_TEXT_SECTION);
+  const slackAgenda = Array.from(P_RICH_TEXT_SECTION)
+    .filter((e) => e.innerHTML.includes(agenda)).at(-1);
+  console.log('slackAgenda: ', slackAgenda);
 
-  console.log('trybeSchedule: ', trybeSchedule);
+  return slackAgenda;
+}
+
+function main() {
+  const lastScheduleDay = getLastScheduleDay();
+  const trybeScheduleStr = formatScheduleString(lastScheduleDay);
+
+  // const trybeScheduleZoomLinks = getZoomLinks(lastScheduleDay);
+
+  console.log('trybeSchedule: ', trybeScheduleStr);
+  // console.log('trybeScheduleZoomLinks: ', trybeScheduleZoomLinks);
 }
 
 main();
+
 // \\wsl$\Ubuntu-20.04\home\brito\desktop\myproj
