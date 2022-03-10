@@ -2,9 +2,9 @@
 //  background.js //
 function formatScheduleString(scheduleDayDiv) {
   const MANY_WHITE_SPACES = /\s\s\s\s+/;
-  const NUMBER_OR_BRACKET = /^\d|^[[]/;
+  const NUMBER_OR_BRACKET = /^\d\d|^[[]/;
   const ZOOM_PATTERN = /^\s[|]\s/;
-
+  // MONTAR PADRÃO ZOOM
   const agendaStrings = scheduleDayDiv.innerText.split('\n');
 
   // BY REMOVING STRINGS WITH SPACES
@@ -35,13 +35,41 @@ function getZoomLinks(scheduleDayDiv) {
 }
 
 function getLastScheduleDay() {
-  const P_RICH_TEXT_SECTION = document.getElementsByClassName('p-rich_text_section');
-  const agenda = 'AGENDA DO DIA |';
+  const BLOCK_KIT_RENDER = document.getElementsByClassName('p-block_kit_renderer__block_wrapper');
 
-  const slackAgenda = Array.from(P_RICH_TEXT_SECTION)
-    .filter((e) => e.innerHTML.includes(agenda)).at(-1);
+  const QUEM_REAGUE_COM = /(quem\s[a-z]+)( |, )(reage com)/img;
 
-  return slackAgenda;
+  // const agenda = 'AGENDA DO DIA |';
+
+  // const P_RICH_TEXT_SECTION = document.getElementsByClassName('p-rich_text_block');
+  // const agenda = 'reage com';
+
+  // CLASSES
+  //   p-rich_text_block
+  //   p-rich_text_section
+  //   p-block_kit_renderer__block_wrapper ----- TALVEZ ESSE
+  //   p-block_kit_renderer__block_wrapper--first
+  //   p-block_kit_renderer
+  //   c-message__message_blocks
+  //   c-message__message_blocks--rich_text
+  //   c-message_kit__blocks
+  //   c-message_kit__blocks--rich_text
+  //   c-message_kit__gutter__right
+  //   c-message_kit__gutter
+  //   c-message_kit__actions
+  //   c-message_kit__actions--default
+  //   c-message_kit__hover
+
+  //   c-mrkdwn__quote
+  // TAG
+  //   blockquote
+
+  // role=document
+
+  const lastScheduleDay = Array.from(BLOCK_KIT_RENDER)
+    .filter((e) => e.innerText.match(QUEM_REAGUE_COM)).at(-1);
+
+  return lastScheduleDay;
 }
 
 function main() {
