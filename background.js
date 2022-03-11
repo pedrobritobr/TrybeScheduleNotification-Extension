@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-//  background.js //
 function formatScheduleString(scheduleDayDiv) {
   const MANY_WHITE_SPACES = /\s\s\s\s+/;
   const NUMBER_OR_BRACKET = /^\d\d|^[[]/;
