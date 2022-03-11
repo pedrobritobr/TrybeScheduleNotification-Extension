@@ -22,12 +22,10 @@ function formatScheduleString(scheduleDayDiv) {
 
 function getZoomLinks(scheduleDayDiv) {
   const aTags = scheduleDayDiv.getElementsByTagName('a');
-
   const zoomLinks = [];
+
   Array.from(aTags).forEach((e) => {
-    if (e.href.includes('zoom.us')) {
-      zoomLinks.push(e.href);
-    }
+    if (e.href.includes('zoom.us')) zoomLinks.push(e.href);
   });
 
   return zoomLinks;
@@ -43,15 +41,39 @@ function getLastScheduleDay() {
   return lastScheduleDay;
 }
 
+function joinScheduleWithLink(trybeSchedule, zoomLinks) {
+  const zoomLinksLength = zoomLinks.length;
+  const trybeScheduleWithZoom = trybeSchedule.filter((schedule) => schedule.includes('Zoom')).length;
+
+  if (trybeScheduleWithZoom >= zoomLinksLength) {
+    const objSchedule = trybeSchedule.reduce((acc, curr, index) => {
+      const schedule = { schedule: curr };
+
+      if (index < zoomLinksLength) schedule.zoomLink = zoomLinks[index];
+
+      return [...acc, schedule];
+    }, []);
+
+    return objSchedule;
+  }
+  return false;
+}
+
 function main() {
   const lastScheduleDay = getLastScheduleDay();
   console.log('slackAgenda: ', lastScheduleDay);
 
   const trybeScheduleStr = formatScheduleString(lastScheduleDay);
   const trybeScheduleZoomLinks = getZoomLinks(lastScheduleDay);
+  const scheduleAndLinks = joinScheduleWithLink(trybeScheduleStr, trybeScheduleZoomLinks);
 
   console.log('trybeSchedule: ', trybeScheduleStr);
   console.log('trybeScheduleZoomLinks: ', trybeScheduleZoomLinks);
+  if (!scheduleAndLinks) {
+    console.log('scheduleAndLinks: ', scheduleAndLinks);
+    console.log('Foram encontrados mais links que o momentos de zoom, verifique os links manualmente');
+  }
+  console.log('scheduleAndLinks: ', scheduleAndLinks);
 }
 
 main();
