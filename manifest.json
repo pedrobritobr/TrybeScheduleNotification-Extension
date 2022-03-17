@@ -9,11 +9,11 @@
   "background": {
     "service_worker": "background.js"
   },
+  "permissions": ["alarms", "activeTab", "scripting", "storage"],
   "content_scripts": [
     {
       "matches": ["https://app.slack.com/*"],
       "js": ["content.js"]
     }
-  ],
-  "permissions": ["activeTab", "scripting"]
+  ]
 }

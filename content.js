@@ -10,3 +10,14 @@
 // console.log(firstHref);
 
 // \\wsl$\Ubuntu-20.04\home\brito\desktop\myproj
+
+chrome.permissions.contains({
+  permissions: ['tabs'],
+  origins: ['https://www.google.com/']
+}, (result) => {
+  if (result) {
+    console.log(result)
+  } else {
+    // The extension doesn't have the permissions.
+  }
+});
