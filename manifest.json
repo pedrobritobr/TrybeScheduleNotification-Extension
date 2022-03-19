@@ -9,7 +9,7 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["alarms", "activeTab", "scripting", "storage"],
+  "permissions": ["alarms", "activeTab", "scripting", "storage", "notifications"],
   "content_scripts": [
     {
       "matches": ["https://app.slack.com/*"],

@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+/* global chrome */
 function getLastScheduleDay() {
   const BLOCK_KIT_RENDER = document.getElementsByClassName('p-block_kit_renderer__block_wrapper');
 
@@ -20,7 +21,6 @@ function formatScheduleString(scheduleDayDiv) {
   const scheduleTrybeNoSpaces = agendaStrings
     .filter((trybeString) => !trybeString.match(MANY_WHITE_SPACES));
 
-
   // JOIN ZOOM WITH TIME
   scheduleTrybeNoSpaces.forEach((e, index, baseArray) => {
     if (e.match(ZOOM_PATTERN)) {
@@ -39,7 +39,7 @@ function getZoomLinks(scheduleDayDiv) {
   let agendaStrBeforeZoom = agendaStringsWhereIsZoom.map((zoomString) => zoomString.split('Zoom').at(0));
 
   const zoomLinks = [];
-  
+
   Array.from(aTags).map((e) => {
     if (!agendaStrBeforeZoom[0]) return null;
 
@@ -53,14 +53,17 @@ function getZoomLinks(scheduleDayDiv) {
       const comparision3 = uncle.innerText.includes(agendaStrBeforeZoom[0]);
       const comparision4 = agendaStrBeforeZoom[0].includes(uncle.innerText) && uncle.innerText;
       const comparision5 = grandUncle.innerText.includes(agendaStrBeforeZoom[0]);
-      const comparision6 = agendaStrBeforeZoom[0].includes(grandUncle.innerText) && grandUncle.innerText;
+      const comparision6 = agendaStrBeforeZoom[0]
+        .includes(grandUncle.innerText) && grandUncle.innerText;
 
-      if (comparision1 || comparision2 || comparision3 || comparision4 || comparision5 || comparision6) {
+      if (comparision1 || comparision2 || comparision3
+        || comparision4 || comparision5 || comparision6) {
         agendaStrBeforeZoom = agendaStrBeforeZoom.filter((_e, i) => i !== 0);
         zoomLinks.push(e.href);
         return null;
-      };
-    };
+      }
+    }
+    return null;
   });
   return zoomLinks;
 }
@@ -70,7 +73,7 @@ function joinScheduleWithLink(trybeSchedule, zoomLinks) {
     const fullSchedule = { schedule };
 
     if (schedule.includes('Zoom')) {
-      fullSchedule.zoomLink = zoomLinks[0];
+      fullSchedule.zoomLink = zoomLinks.at(0);
 
       zoomLinks = zoomLinks.filter((_link, index) => index !== 0);
     }
@@ -82,41 +85,29 @@ function joinScheduleWithLink(trybeSchedule, zoomLinks) {
 }
 
 function main() {
-  console.log('-------------- INICIANDO APP -------------');
-  console.log('-------------- INICIANDO APP -------------');
+  console.log('-------------- INICIANDO TRYBE HOURS -------------');
+  console.log('-------------- INICIANDO TRYBE HOURS -------------');
+
   const lastScheduleDay = getLastScheduleDay();
-  console.log('slackAgenda: ', lastScheduleDay);
+  console.log('Agenda from Slack: ', lastScheduleDay);
 
   const trybeScheduleStr = formatScheduleString(lastScheduleDay);
-  const trybeScheduleZoomLinks = getZoomLinks(lastScheduleDay, trybeScheduleStr);
-  const scheduleAndLinks = joinScheduleWithLink(trybeScheduleStr, trybeScheduleZoomLinks);
+  console.log('Hours of the day: ', trybeScheduleStr);
 
-  console.log('trybeSchedule: ', trybeScheduleStr);
-  console.log('trybeScheduleZoomLinks: ', trybeScheduleZoomLinks);
+  const trybeScheduleZoomLinks = getZoomLinks(lastScheduleDay, trybeScheduleStr);
+  console.log('Important Zoom links: ', trybeScheduleZoomLinks);
+
+  const scheduleAndLinks = joinScheduleWithLink(trybeScheduleStr, trybeScheduleZoomLinks);
   console.log('scheduleAndLinks: ', scheduleAndLinks);
 
-  chrome.storage.local.set({scheduleAndLinks});
-  console.log('-------------- FECHANDO APP -------------');
-  console.log('-------------- FECHANDO APP -------------');
+  chrome.storage.local.set({ scheduleAndLinks });
 
-
-  // console.log(Date.parse('04 Dec 3000 00:12:00 GMT'))
-  // const unixTimeZero = Date.parse('01 Jan 1970 00:00:00 GMT');
-  // const javaScriptRelease = Date.parse('04 Dec 3000 00:12:00 GMT');
-
-  const fullToday = new Date();
-
-  const mes = fullToday.getMonth();
-  const dia = fullToday.getDate();
-  const ano = fullToday.getFullYear();
-
-  const onlyToday = new Date(ano, mes, dia, 0, 12, 0);
-  console.log('onlyToday: ', onlyToday);
-
-  const alarmV = Date.parse(onlyToday);
-  console.log('alarmV: ', alarmV);
-
-  // chrome.alarms.create('Test', {when: alarmV})
+  console.log('-------------- FECHANDO TRYBE HOURS -------------');
+  console.log('-------------- FECHANDO TRYBE HOURS -------------');
 }
 
-main();
+try {
+  main();
+} catch (error) {
+  console.log(error);
+}

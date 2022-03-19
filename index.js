@@ -1,75 +1,67 @@
-const clique = document.getElementById('clique');
-let trybeSchedule = [];
+/* global chrome */
 
-const fullToday = new Date();
+function audioAndTime() {
+  const fullToday = new Date();
 
-const mes = fullToday.getMonth();
-const dia = fullToday.getDate();
-const ano = fullToday.getFullYear();
+  const mes = fullToday.getMonth();
+  const dia = fullToday.getDate();
+  const ano = fullToday.getFullYear();
 
-const onlyToday = new Date(ano, mes, dia, 1, 21, 0);
-// console.log('onlyToday: ', onlyToday);
+  const onlyToday = new Date(ano, mes, dia, 1, 21, 0);
+  // console.log('onlyToday: ', onlyToday);
 
-const alarmV = Date.parse(onlyToday);
-// console.log('alarmV: ', alarmV);
-
-// chrome.alarms.create('Test', {when: Date.now() + 8000})  
-// chrome.alarms.onAlarm.addListener(
-//   () => {
-//     alert('deu bom');
-//   }
-// )
-
-function createTabela() {
-  const tabela = document.getElementById('tabela');
-  tabela.innerHTML = '';
-
-  const tabelaTitle = document.createElement('p');
-  tabelaTitle.innerText = 'Horários Trybe';
-
-  tabela.appendChild(document.createElement('br'));
-
-  trybeSchedule.forEach(({ schedule, zoomLink }) => {
-    console.log('INDEX item: ', { schedule, zoomLink })
-    const spanTagHour = document.createElement('span');
-    spanTagHour.innerText = schedule;
-    tabela.appendChild(spanTagHour);
-    if (zoomLink) {
-      const spanTagZoom = document.createElement('span');
-      spanTagZoom.innerText = zoomLink;
-      tabela.appendChild(spanTagZoom);
-    }
-    tabela.appendChild(document.createElement('br'));
-    tabela.appendChild(document.createElement('br'));
-  });
+  const alarmV = Date.parse(onlyToday);
+  console.log('alarmV: ', alarmV);
 }
 
-clique.addEventListener("click", async () => {
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+const createTabela = (trybeSchedule) => {
+  console.log('trybeSchedule: ', trybeSchedule);
+  // const tabela = document.getElementById('tabela');
+  // tabela.innerHTML = '';
 
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    files: ['background.js']
-  });
+  // // const audioAlarm = new Audio('alarm.wav');
+  // // audioAlarm.play();
 
-  await chrome.storage.local.get(["scheduleAndLinks"], ({ scheduleAndLinks }) => {
-    trybeSchedule = scheduleAndLinks;
-    // chrome.tabs.sendMessage(tab.id, { name });
-  });
+  // console.log(Notification.permission);
 
-  setTimeout(createTabela, 1500);
+  // const tabelaTitle = document.createElement('p');
+  // tabelaTitle.innerText = 'Horários Trybe';
 
-  // chrome.scripting.executeScript({
-  //   target: { tabId: tab.id },
-  //   function: setPageBackgroundColor,
+  // tabela.appendChild(document.createElement('br'));
+
+  // trybeSchedule.forEach(({ schedule, zoomLink }) => {
+  //   console.log('INDEX item: ', { schedule, zoomLink });
+  //   const spanTagHour = document.createElement('span');
+  //   spanTagHour.innerText = schedule;
+  //   tabela.appendChild(spanTagHour);
+  //   if (zoomLink) {
+  //     const spanTagZoom = document.createElement('span');
+  //     spanTagZoom.innerText = zoomLink;
+  //     tabela.appendChild(spanTagZoom);
+  //   }
+  //   tabela.appendChild(document.createElement('br'));
+  //   tabela.appendChild(document.createElement('br'));
   // });
-});
+};
 
-// // The body of this function will be executed as a content script inside the
-// // current page
-// function setPageBackgroundColor() {
-//   chrome.storage.sync.get("color", ({ color }) => {
-//     document.body.style.backgroundColor = color;
-//   });
-// }
+try {
+  const clique = document.getElementById('clique');
 
+  clique.addEventListener('click', async () => {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    let trybeSchedule = [];
+
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: ['getSchedule.js'],
+    });
+
+    chrome.storage.local.get(['scheduleAndLinks'], ({ scheduleAndLinks }) => {
+      trybeSchedule = scheduleAndLinks;
+    });
+
+    setTimeout(() => createTabela(trybeSchedule), 1500);
+  });
+} catch (error) {
+  console.log(error);
+}
