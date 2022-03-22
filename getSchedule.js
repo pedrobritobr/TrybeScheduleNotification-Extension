@@ -2,9 +2,7 @@
 /* global chrome */
 function getLastScheduleDay() {
   const BLOCK_KIT_RENDER = document.getElementsByClassName('p-block_kit_renderer__block_wrapper');
-  console.log(BLOCK_KIT_RENDER);
 
-  // const QUEM_REAGUE_COM = /(quem\s[a-z]+)( |, )(reage com)/img;
   const QUEM_REAGUE_COM = /(Quem )([a-zA-ZÀ-ÿ |,]+)( reage com)/gmi;
 
   return Array.from(BLOCK_KIT_RENDER)
