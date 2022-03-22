@@ -1,25 +1,8 @@
 /* global chrome */
 
-function audioAndTime() {
-  const fullToday = new Date();
-
-  const mes = fullToday.getMonth();
-  const dia = fullToday.getDate();
-  const ano = fullToday.getFullYear();
-
-  const onlyToday = new Date(ano, mes, dia, 1, 21, 0);
-  // console.log('onlyToday: ', onlyToday);
-
-  const alarmV = Date.parse(onlyToday);
-  console.log('alarmV: ', alarmV);
-}
-
 const createTabela = (trybeSchedule) => {
   const tabela = document.getElementById('tabela');
   tabela.innerHTML = '';
-
-  // const audioAlarm = new Audio('alarm.wav');
-  // audioAlarm.play();
 
   const tabelaTitle = document.createElement('p');
   tabelaTitle.innerText = 'Horários Trybe';
@@ -41,9 +24,9 @@ const createTabela = (trybeSchedule) => {
 };
 
 try {
-  const clique = document.getElementById('clique');
+  const getTodaySchedule = document.getElementById('getTodaySchedule');
 
-  clique.addEventListener('click', async () => {
+  getTodaySchedule.addEventListener('click', async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     let trybeSchedule = [];
 
@@ -52,15 +35,10 @@ try {
       files: ['getSchedule.js'],
     });
 
-    chrome.alarms.create('Test', { when: Date.now() + 8000 });
+    chrome.alarms.create('Test1111', { when: Date.now() + 5000 });
+    chrome.alarms.getAll((resp) => console.log('----------INDEX----------\n resp Alarms: ', resp));
 
-    chrome.runtime.sendMessage('toTheBackground', (response) => {
-      // 3. Got an asynchronous response with the data from the background
-
-      console.log('enviando msg para o Back');
-      console.log('received user data', response);
-      // initializeUI(response);
-    });
+    chrome.runtime.sendMessage('runAlarmsAnNotifications', () => {});
 
     chrome.storage.local.get(['scheduleAndLinks'], ({ scheduleAndLinks }) => {
       trybeSchedule = scheduleAndLinks;

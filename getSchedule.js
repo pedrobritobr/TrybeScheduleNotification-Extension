@@ -101,6 +101,7 @@ function joinScheduleWithLink(trybeSchedule, zoomLinks) {
 function main() {
   // myTimer();
   if (!document.URL.includes('app.slack.com')) {
+    console.log('------- OUT OFF SLACK -------');
     return null;
   }
   console.log('-------------- INICIANDO TRYBE HOURS -------------');
