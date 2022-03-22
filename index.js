@@ -15,33 +15,29 @@ function audioAndTime() {
 }
 
 const createTabela = (trybeSchedule) => {
-  console.log('trybeSchedule: ', trybeSchedule);
-  // const tabela = document.getElementById('tabela');
-  // tabela.innerHTML = '';
+  const tabela = document.getElementById('tabela');
+  tabela.innerHTML = '';
 
-  // // const audioAlarm = new Audio('alarm.wav');
-  // // audioAlarm.play();
+  // const audioAlarm = new Audio('alarm.wav');
+  // audioAlarm.play();
 
-  // console.log(Notification.permission);
+  const tabelaTitle = document.createElement('p');
+  tabelaTitle.innerText = 'Horários Trybe';
 
-  // const tabelaTitle = document.createElement('p');
-  // tabelaTitle.innerText = 'Horários Trybe';
+  tabela.appendChild(document.createElement('br'));
 
-  // tabela.appendChild(document.createElement('br'));
-
-  // trybeSchedule.forEach(({ schedule, zoomLink }) => {
-  //   console.log('INDEX item: ', { schedule, zoomLink });
-  //   const spanTagHour = document.createElement('span');
-  //   spanTagHour.innerText = schedule;
-  //   tabela.appendChild(spanTagHour);
-  //   if (zoomLink) {
-  //     const spanTagZoom = document.createElement('span');
-  //     spanTagZoom.innerText = zoomLink;
-  //     tabela.appendChild(spanTagZoom);
-  //   }
-  //   tabela.appendChild(document.createElement('br'));
-  //   tabela.appendChild(document.createElement('br'));
-  // });
+  trybeSchedule.forEach(({ schedule, zoomLink }) => {
+    const spanTagHour = document.createElement('span');
+    spanTagHour.innerText = schedule;
+    tabela.appendChild(spanTagHour);
+    if (zoomLink) {
+      const spanTagZoom = document.createElement('span');
+      spanTagZoom.innerText = zoomLink;
+      tabela.appendChild(spanTagZoom);
+    }
+    tabela.appendChild(document.createElement('br'));
+    tabela.appendChild(document.createElement('br'));
+  });
 };
 
 try {
@@ -54,6 +50,16 @@ try {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
       files: ['getSchedule.js'],
+    });
+
+    chrome.alarms.create('Test', { when: Date.now() + 8000 });
+
+    chrome.runtime.sendMessage('toTheBackground', (response) => {
+      // 3. Got an asynchronous response with the data from the background
+
+      console.log('enviando msg para o Back');
+      console.log('received user data', response);
+      // initializeUI(response);
     });
 
     chrome.storage.local.get(['scheduleAndLinks'], ({ scheduleAndLinks }) => {
