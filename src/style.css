@@ -1,0 +1,144 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 320px;
+  background-color: var(--background);
+  font-family: Lato;
+}
+
+:root {
+  --background: #f8f8f8ff;
+  --background-accent: white;
+  --primary: black;
+  --switch-thumb: rgb(125, 229, 255);
+  --hover: cyan;
+  --active: white;
+  --link: rgb(2, 94, 180);
+  --shadow: rgb(223, 206, 206);
+  --thumb-primmary: rgb(136, 136, 136);
+  --thumb-accent: rgb(85, 85, 85);
+}
+
+[data-theme='dark'] {
+  --background: #212529ff;
+  --background-accent: #191d21ff;
+  --primary: rgb(209, 210, 211);
+  --switch-thumb: rgb(103, 112, 235);
+  --link: rgb(29, 155, 209);
+  --shadow: rgb(232, 232, 232);
+  --thumb-primmary: rgb(209, 210, 211);
+  --thumb-accent: rgb(167, 167, 167);
+}
+
+body {
+  display: flex;
+  flex-flow: column nowrap;
+  align-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+h1,
+h3 {
+  color: var(--primary);
+  text-align: center;
+}
+
+#tabela {
+  display: none;
+  flex-flow: column wrap;
+  padding: 8px;
+  gap: 8px;
+}
+
+#tabela p {
+  display: inline-block;
+  width: fit-content;
+  font-size: medium;
+  background-color: var(--background-accent);
+  padding: 4px;
+  color: var(--primary);
+  box-shadow: 0 0 0 1px var(--shadow);
+  border-radius: 4px;
+}
+
+#tabela a {
+  font-size: medium;
+  text-decoration: none;
+  color: var(--link);
+}
+
+#getTodaySchedule {
+  width: fit-content;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--background-accent);
+  color: var(--primary);
+  box-shadow: 0 0 0 1px var(--shadow);
+  margin-bottom: 8px;
+}
+
+#getTodaySchedule:hover {
+  background-color: var(--hover);
+}
+
+#getTodaySchedule:active {
+  background-color: var(--active);
+}
+
+/* Scroll Bar */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--thumb-primmary);
+  border-radius: 8px 0 0 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--thumb-accent);
+}
+
+/* Theme Switch */
+
+.switch {
+  width: 50px;
+  height: 26px;
+  padding: 3px;
+  border-radius: 60px;
+  background-color: var(--background-accent);
+  margin-bottom: 8px;
+  box-shadow: 0 0 0 1px var(--shadow);
+  cursor: pointer;
+}
+
+.switch input {
+  display: none;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 26px;
+  background-color: var(--switch-thumb);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  pointer-events: none;
+}
+
+.switch input:checked + .thumb {
+  -webkit-transform: translateX(25px);
+  -ms-transform: translateX(25px);
+  transform: translateX(25px);
+}
