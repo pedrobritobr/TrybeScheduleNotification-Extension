@@ -1,19 +1,20 @@
 {
   "name": "Trybe Clock",
   "description": "gets agenda from slack",
-  "version": "0.1",
+  "version": "1.0.0",
   "manifest_version": 3,
   "action": {
-    "default_popup": "index.html"
+    "default_popup": "./src/index.html"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "./src/background.js",
+    "type": "module"
   },
   "permissions": ["alarms", "activeTab", "scripting", "storage", "notifications"],
   "content_scripts": [
     {
       "matches": ["https://app.slack.com/*"],
-      "js": ["content.js"]
+      "js": ["./src/content.js"]
     }
   ]
 }
