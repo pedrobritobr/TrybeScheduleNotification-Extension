@@ -104,7 +104,7 @@ function main() {
   const scheduleAndLinks = joinScheduleWithLink(trybeScheduleStr, trybeScheduleZoomLinks);
   console.log('scheduleAndLinks: ', scheduleAndLinks);
 
-  chrome.storage.local.set({ scheduleAndLinks });
+  chrome.storage.sync.set({ scheduleAndLinks });
 
   console.log('-------------- FECHANDO TRYBE HOURS -------------');
   console.log('-------------- FECHANDO TRYBE HOURS -------------');

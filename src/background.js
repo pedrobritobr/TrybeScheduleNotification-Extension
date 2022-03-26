@@ -7,35 +7,36 @@ async function savedAlarms() {
   console.log('await chrome.alarms.getAll(): ', await chrome.alarms.getAll());
 }
 
-function fireAlarm(actualAlarm) {
-  const [title, zoomLink = 'reminder'] = actualAlarm.name.split('@@@');
+async function fireAlarm(actualAlarm) {
+  const [taskName, zoomLinkTask] = actualAlarm.name.split('@@@');
+  const taskInformation = { taskName, zoomLinkTask };
 
-  const thereIs = 'There is a zoom link\n***CLICK ME***';
-  const thereIsNot = 'There is NOT a zoom link';
-  const notfMessage = zoomLink.includes('zoom.us') ? thereIs : thereIsNot;
-  const notifName = zoomLink;
+  await chrome.storage.sync.set({ taskInformation });
 
-  chrome.windows.create({ url: './play-alarm-sound/index.html', state: 'minimized' });
-  chrome.notifications.create(
-    notifName,
-    {
-      type: 'basic',
-      iconUrl: 'Pedro.png',
-      title,
-      message: notfMessage,
-      priority: 2,
-    },
-  );
+  const popupHeight = 280;
+  const popupWidth = 450;
 
-  setTimeout(() => {
-    chrome.notifications.clear(notifName, () => {});
-  }, 10000);
+  const monitors = await chrome.system.display.getInfo();
+  const { bounds: pMonitor } = monitors.find((monitor) => monitor.isPrimary);
+  const { height: monitorHeight, width: monitorWidth } = pMonitor;
+
+  chrome.windows.create({
+    url: './src/play-alarm-sound/index.html',
+    height: popupHeight,
+    width: popupWidth,
+    left: (monitorWidth / 2) - (popupWidth / 2),
+    top: (monitorHeight / 2) - (popupHeight),
+    type: 'popup',
+  });
 }
 
 try {
   chrome.runtime.onMessage.addListener((message) => {
     if (message === 'runAlarmsAnNotifications') {
-      savedAlarms();
+      const mockAlarm = {
+        name: '19h40 às 20h - Fechamento | Zoom @@@ https://trybe.zoom.us/j/97400302016',
+      };
+      fireAlarm(mockAlarm);
       return true;
     }
     return false;

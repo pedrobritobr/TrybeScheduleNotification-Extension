@@ -67,13 +67,13 @@ try {
   const getTodaySchedule = document.getElementById('getTodaySchedule');
 
   getTodaySchedule.addEventListener('click', async () => {
-    chrome.storage.local.clear();
+    chrome.storage.sync.clear('scheduleAndLinks');
 
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
     await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['./src/getSchedule.js'] });
 
-    await chrome.storage.local.get(
+    await chrome.storage.sync.get(
       ['scheduleAndLinks'],
       ({ scheduleAndLinks }) => {
         if (!scheduleAndLinks) {
