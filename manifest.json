@@ -1,5 +1,5 @@
 {
-  "name": "Trybe Clock",
+  "name": "Trybe Clock - test",
   "description": "gets agenda from slack",
   "version": "1.0.0",
   "manifest_version": 3,
@@ -10,7 +10,7 @@
     "service_worker": "./src/background.js",
     "type": "module"
   },
-  "permissions": ["alarms", "activeTab", "scripting", "storage", "notifications"],
+  "permissions": ["alarms", "activeTab", "scripting", "storage", "notifications", "system.display"],
   "content_scripts": [
     {
       "matches": ["https://app.slack.com/*"],
