@@ -1,25 +1,41 @@
 /* global chrome */
 
+function createZoomLinkTaskATag(zoomLinkTask) {
+  const zoomLinkTag = document.getElementById('zoomLink');
+  const aTagZoomLink = document.createElement('a');
+  aTagZoomLink.innerText = 'Zoom';
+  aTagZoomLink.href = zoomLinkTask;
+  aTagZoomLink.target = '_blank';
+  aTagZoomLink.rel = 'noreferrer noopener';
+  zoomLinkTag.appendChild(aTagZoomLink);
+  return null;
+}
+
+function noZoomLink() {
+  const zoomLinkTag = document.getElementById('zoomLink');
+  const thereIsNotLink = 'Não há link do zoom';
+
+  zoomLinkTag.innerText = thereIsNotLink;
+  return null;
+}
+
+function createTaskNameH1Tag(taskName) {
+  const taskTag = document.getElementById('task');
+  taskTag.innerText = taskName;
+}
+
 window.onload = async () => {
   const { taskInformation } = await chrome.storage.sync.get('taskInformation');
-  // const { taskName, zoomLinkTask } = await chrome.storage.sync.get('taskInformation');
   const { taskName, zoomLinkTask } = taskInformation;
-  // console.log('taskInformation: ', taskInformation);
-
   console.log('taskInformation taskName: ', taskName);
   console.log('taskInformation zoomLinkTask: ', zoomLinkTask);
 
-  const taskTag = document.getElementById('task');
-  const zoomLinkTag = document.getElementById('zoomLink');
-
-  taskTag.innerText = taskName;
-  zoomLinkTag.innerText = 'Zoom';
-  zoomLinkTag.href = zoomLinkTask;
-  zoomLinkTag.target = '_blank';
-  zoomLinkTag.rel = 'noreferrer noopener';
-
-  console.log('task: ', taskTag);
-  console.log('zoomLink: ', zoomLinkTag);
+  createTaskNameH1Tag(taskName);
+  if (zoomLinkTask) {
+    createZoomLinkTaskATag(zoomLinkTask);
+  } else {
+    noZoomLink();
+  }
 
   const alarme = new Audio('./bells2.wav');
   alarme.volume = 0.2;
