@@ -85,10 +85,6 @@ function joinScheduleWithLink(trybeSchedule, zoomLinks) {
 }
 
 function main() {
-  if (!document.URL.includes('app.slack.com')) {
-    console.log('------- OUT OFF SLACK -------');
-    return null;
-  }
   console.log('-------------- INICIANDO TRYBE HOURS -------------');
   console.log('-------------- INICIANDO TRYBE HOURS -------------');
 
@@ -112,10 +108,7 @@ function main() {
 }
 
 try {
-  if (!main()) {
-    const meuAlerta = window.alert;
-    meuAlerta('Você não está no slack');
-  }
+  main();
 } catch (error) {
   console.log(error);
 }

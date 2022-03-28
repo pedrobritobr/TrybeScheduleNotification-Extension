@@ -62,6 +62,21 @@ function switchTheme(e) {
   }
 }
 
+function firstChildOfBody() {
+  const pTag = document.createElement('p');
+
+  pTag.innerText = 'Você está fora do slack!';
+  pTag.id = 'outOfSlack';
+  pTag.style['background-color'] = '#F5A8A8';
+  pTag.style['font-size'] = '18px';
+  pTag.style['text-align'] = 'center';
+
+  const body = document.querySelector('body');
+  const bodyFirstChild = body.firstChild;
+
+  body.insertBefore(pTag, bodyFirstChild);
+}
+
 try {
   document.querySelector('#switch-input').addEventListener('click', switchTheme);
   const getTodaySchedule = document.getElementById('getTodaySchedule');
@@ -70,6 +85,12 @@ try {
     chrome.storage.sync.clear('scheduleAndLinks');
 
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    console.log('tab: ', tab);
+    if (!tab.url.includes('app.slack.com')) {
+      firstChildOfBody();
+      return null;
+    }
 
     await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['./src/getSchedule.js'] });
 
@@ -87,6 +108,8 @@ try {
     );
 
     chrome.runtime.sendMessage('runAlarmsAnNotifications');
+
+    return null;
   });
 } catch (error) {
   console.log(error);

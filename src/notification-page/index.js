@@ -37,7 +37,7 @@ window.onload = async () => {
     noZoomLink();
   }
 
-  const alarme = new Audio('./bells2.wav');
+  const alarme = new Audio('./bells.wav');
   alarme.volume = 0.2;
   alarme.play();
 };

@@ -21,7 +21,7 @@ async function fireAlarm(actualAlarm) {
   const { height: monitorHeight, width: monitorWidth } = pMonitor;
 
   chrome.windows.create({
-    url: './src/play-alarm-sound/index.html',
+    url: './src/notification-page/index.html',
     height: popupHeight,
     width: popupWidth,
     left: (monitorWidth / 2) - (popupWidth / 2),
