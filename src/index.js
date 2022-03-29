@@ -85,7 +85,9 @@ function firstChildOfBody() {
 
 async function reloadScheduleSaved() {
   const { scheduleAndLinks } = await chrome.storage.sync.get(['scheduleAndLinks']);
-  createTabela(scheduleAndLinks);
+  if (scheduleAndLinks) {
+    createTabela(scheduleAndLinks);
+  }
 }
 
 async function editSchedule() {
