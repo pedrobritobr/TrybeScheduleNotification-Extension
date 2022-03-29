@@ -1,0 +1,16 @@
+body {
+  background-color: #212529ff;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-around;
+  height: 90vh;
+}
+
+a {
+  text-decoration: none;
+  color: white
+  
+}

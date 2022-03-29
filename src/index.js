@@ -77,16 +77,22 @@ function firstChildOfBody() {
   body.insertBefore(pTag, bodyFirstChild);
 }
 
+async function reloadScheduleSaved() {
+  const { scheduleAndLinks } = await chrome.storage.sync.get(['scheduleAndLinks']);
+  createTabela(scheduleAndLinks);
+
+  // console.log('y: ', scheduleAndLinks);
+}
+
 try {
+  window.onload = reloadScheduleSaved();
+
   document.querySelector('#switch-input').addEventListener('click', switchTheme);
   const getTodaySchedule = document.getElementById('getTodaySchedule');
 
   getTodaySchedule.addEventListener('click', async () => {
-    chrome.storage.sync.clear('scheduleAndLinks');
-
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-    console.log('tab: ', tab);
     if (!tab.url.includes('app.slack.com')) {
       firstChildOfBody();
       return null;
@@ -106,6 +112,8 @@ try {
         }
       },
     );
+
+    reloadScheduleSaved();
 
     chrome.runtime.sendMessage('runAlarmsAnNotifications');
 

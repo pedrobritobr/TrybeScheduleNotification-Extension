@@ -44,10 +44,6 @@ try {
 
   chrome.alarms.onAlarm.addListener(fireAlarm);
 
-  chrome.notifications.onClicked.addListener((notifName) => {
-    if (notifName.includes('zoom.us')) chrome.tabs.create({ url: notifName });
-  });
-
   setInterval(savedAlarms, 10000);
 } catch (error) {
   console.log(error);

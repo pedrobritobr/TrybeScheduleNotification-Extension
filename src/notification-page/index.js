@@ -2,8 +2,9 @@
 
 function createZoomLinkTaskATag(zoomLinkTask) {
   const zoomLinkTag = document.getElementById('zoomLink');
+  zoomLinkTag.innerText = '';
   const aTagZoomLink = document.createElement('a');
-  aTagZoomLink.innerText = 'Zoom';
+  aTagZoomLink.innerText = zoomLinkTask;
   aTagZoomLink.href = zoomLinkTask;
   aTagZoomLink.target = '_blank';
   aTagZoomLink.rel = 'noreferrer noopener';
@@ -27,8 +28,9 @@ function createTaskNameH1Tag(taskName) {
 window.onload = async () => {
   const { taskInformation } = await chrome.storage.sync.get('taskInformation');
   const { taskName, zoomLinkTask } = taskInformation;
-  console.log('taskInformation taskName: ', taskName);
-  console.log('taskInformation zoomLinkTask: ', zoomLinkTask);
+  // const taskName = '19h40 às 20h - Fechamento | Zoom';
+  // const zoomLinkTask = 'https://trybe.zoom.us/j/97400302016';
+  // const zoomLinkTask = '';
 
   createTaskNameH1Tag(taskName);
   if (zoomLinkTask) {
@@ -41,7 +43,3 @@ window.onload = async () => {
   alarme.volume = 0.2;
   alarme.play();
 };
-
-// setTimeout(() => {
-//   window.close();
-// }, 7500);
