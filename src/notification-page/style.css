@@ -9,8 +9,12 @@ body {
   height: 90vh;
 }
 
+h1 {
+  text-align: center;
+  text-align-last: center;
+}
+
 a {
   text-decoration: none;
   color: white
-  
 }

@@ -40,6 +40,6 @@ window.onload = async () => {
   }
 
   const alarme = new Audio('./bells.wav');
-  alarme.volume = 0.2;
+  alarme.volume = 0.4;
   alarme.play();
 };
