@@ -80,8 +80,11 @@ function firstChildOfBody() {
 async function reloadScheduleSaved() {
   const { scheduleAndLinks } = await chrome.storage.sync.get(['scheduleAndLinks']);
   createTabela(scheduleAndLinks);
+}
 
-  // console.log('y: ', scheduleAndLinks);
+async function editSchedule() {
+  const allZoomLinks = await chrome.storage.sync.get(['allZoomLinks']);
+  console.log('allZoomLinks: ', allZoomLinks);
 }
 
 try {
@@ -89,6 +92,9 @@ try {
 
   document.querySelector('#switch-input').addEventListener('click', switchTheme);
   const getTodaySchedule = document.getElementById('getTodaySchedule');
+  const editTodaySchedule = document.getElementById('editTodaySchedule');
+
+  editTodaySchedule.addEventListener('click', editSchedule);
 
   getTodaySchedule.addEventListener('click', async () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -115,7 +121,7 @@ try {
 
     reloadScheduleSaved();
 
-    chrome.runtime.sendMessage('runAlarmsAnNotifications');
+    // chrome.runtime.sendMessage('runAlarmsAnNotifications');
 
     return null;
   });

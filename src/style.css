@@ -69,7 +69,11 @@ h3 {
   color: var(--link);
 }
 
-#getTodaySchedule {
+.btnSchedule-container {
+  width: fit-content;
+}
+
+.btnSchedule {
   width: fit-content;
   padding: 4px 8px;
   border: none;
@@ -80,11 +84,11 @@ h3 {
   margin-bottom: 8px;
 }
 
-#getTodaySchedule:hover {
+.btnSchedule:hover {
   background-color: var(--hover);
 }
 
-#getTodaySchedule:active {
+.btnSchedule:active {
   background-color: var(--active);
 }
 
