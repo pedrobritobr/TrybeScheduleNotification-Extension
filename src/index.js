@@ -1,5 +1,15 @@
 /* global chrome */
 
+function createZoomLinkElement(zoomLink) {
+  const aLinkZoom = document.createElement('a');
+  aLinkZoom.innerText = 'Zoom';
+  aLinkZoom.href = zoomLink;
+  aLinkZoom.target = '_blank';
+  aLinkZoom.rel = 'noreferrer noopener';
+
+  return aLinkZoom;
+}
+
 const createTabela = (trybeSchedule) => {
   const tabela = document.getElementById('tabela');
   tabela.style.display = 'flex';
@@ -8,20 +18,16 @@ const createTabela = (trybeSchedule) => {
   const tabelaTitle = document.createElement('p');
   tabelaTitle.innerText = 'Horários Trybe';
 
-  tabela.appendChild(document.createElement('br'));
-
   trybeSchedule.forEach(({ schedule, zoomLink }) => {
+    const divForSchedule = document.createElement('div');
+    divForSchedule.className = 'schedule';
     const pTagHour = document.createElement('p');
     pTagHour.innerText = schedule;
-    tabela.appendChild(pTagHour);
+    divForSchedule.appendChild(pTagHour);
     if (zoomLink) {
-      const aLinkZoom = document.createElement('a');
-      aLinkZoom.innerText = 'Zoom';
-      aLinkZoom.href = zoomLink;
-      aLinkZoom.target = '_blank';
-      aLinkZoom.rel = 'noreferrer noopener';
-      tabela.appendChild(aLinkZoom);
+      divForSchedule.appendChild(createZoomLinkElement(zoomLink));
     }
+    tabela.appendChild(divForSchedule);
   });
 };
 
@@ -83,8 +89,32 @@ async function reloadScheduleSaved() {
 }
 
 async function editSchedule() {
-  const allZoomLinks = await chrome.storage.sync.get(['allZoomLinks']);
-  console.log('allZoomLinks: ', allZoomLinks);
+  const divsSchedule = document.querySelectorAll('.schedule');
+  if (divsSchedule[0].lastChild.localName !== 'input') {
+    const tabela = document.querySelector('#tabela');
+    const { allZoomLinks } = await chrome.storage.sync.get(['allZoomLinks']);
+
+    const allZoomLinksDiv = document.createElement('p');
+
+    allZoomLinks.forEach((zoomLink) => {
+      const zoomElement = createZoomLinkElement(zoomLink);
+      zoomElement.innerText = zoomLink;
+      allZoomLinksDiv.appendChild(zoomElement);
+      allZoomLinksDiv.appendChild(document.createElement('br'));
+    });
+
+    tabela.insertAdjacentElement('beforebegin', allZoomLinksDiv);
+
+    console.log('divsSchedule: ', divsSchedule);
+
+    Array.from(divsSchedule).forEach((schedule) => {
+      if (schedule.lastChild.href) schedule.lastChild.remove();
+
+      const zoomLinkInput = document.createElement('input');
+      zoomLinkInput.placeholder = 'https://trybe.zoom.us/j/99999999999';
+      schedule.appendChild(zoomLinkInput);
+    });
+  }
 }
 
 try {
