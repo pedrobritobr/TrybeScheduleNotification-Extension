@@ -21,7 +21,7 @@ async function fireAlarm(actualAlarm) {
   const { height: monitorHeight, width: monitorWidth } = pMonitor;
 
   chrome.windows.create({
-    url: './src/play-alarm-sound/index.html',
+    url: './src/notification-page/index.html',
     height: popupHeight,
     width: popupWidth,
     left: (monitorWidth / 2) - (popupWidth / 2),
@@ -43,10 +43,6 @@ try {
   });
 
   chrome.alarms.onAlarm.addListener(fireAlarm);
-
-  chrome.notifications.onClicked.addListener((notifName) => {
-    if (notifName.includes('zoom.us')) chrome.tabs.create({ url: notifName });
-  });
 
   setInterval(savedAlarms, 10000);
 } catch (error) {

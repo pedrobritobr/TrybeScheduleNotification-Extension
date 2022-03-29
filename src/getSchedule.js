@@ -31,8 +31,18 @@ function formatScheduleString(scheduleDayDiv) {
   return scheduleTrybeNoSpaces.filter((trybeString) => trybeString.match(NUMBER_OR_BRACKET));
 }
 
+function saveAllZoomLinkAsBackup(aTags) {
+  const allZoomLinks = Array.from(aTags)
+    .filter((anchor) => anchor.href.includes('zoom.us')).map((e) => e.href);
+
+  chrome.storage.sync.set({ allZoomLinks });
+}
+
 function getZoomLinks(scheduleDayDiv) {
   const aTags = scheduleDayDiv.getElementsByTagName('a');
+
+  saveAllZoomLinkAsBackup(aTags);
+
   const allAgendaStrings = scheduleDayDiv.innerText.split('\n');
 
   const agendaStringsWhereIsZoom = allAgendaStrings.filter((schedule) => schedule.includes('Zoom'));
@@ -85,10 +95,6 @@ function joinScheduleWithLink(trybeSchedule, zoomLinks) {
 }
 
 function main() {
-  if (!document.URL.includes('app.slack.com')) {
-    console.log('------- OUT OFF SLACK -------');
-    return null;
-  }
   console.log('-------------- INICIANDO TRYBE HOURS -------------');
   console.log('-------------- INICIANDO TRYBE HOURS -------------');
 
@@ -112,10 +118,7 @@ function main() {
 }
 
 try {
-  if (!main()) {
-    const meuAlerta = window.alert;
-    meuAlerta('Você não está no slack');
-  }
+  main();
 } catch (error) {
   console.log(error);
 }

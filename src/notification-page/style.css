@@ -1,0 +1,20 @@
+body {
+  background-color: #212529ff;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-around;
+  height: 90vh;
+}
+
+h1 {
+  text-align: center;
+  text-align-last: center;
+}
+
+a {
+  text-decoration: none;
+  color: white
+}
