@@ -31,8 +31,18 @@ function formatScheduleString(scheduleDayDiv) {
   return scheduleTrybeNoSpaces.filter((trybeString) => trybeString.match(NUMBER_OR_BRACKET));
 }
 
+function saveAllZoomLinkAsBackup(aTags) {
+  const allZoomLinks = Array.from(aTags)
+    .filter((anchor) => anchor.href.includes('zoom.us')).map((e) => e.href);
+
+  chrome.storage.sync.set({ allZoomLinks });
+}
+
 function getZoomLinks(scheduleDayDiv) {
   const aTags = scheduleDayDiv.getElementsByTagName('a');
+
+  saveAllZoomLinkAsBackup(aTags);
+
   const allAgendaStrings = scheduleDayDiv.innerText.split('\n');
 
   const agendaStringsWhereIsZoom = allAgendaStrings.filter((schedule) => schedule.includes('Zoom'));
