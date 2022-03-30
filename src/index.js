@@ -136,7 +136,7 @@ try {
   const getTodaySchedule = document.getElementById('getTodaySchedule');
   const editTodaySchedule = document.getElementById('editTodaySchedule');
 
-  editTodaySchedule.addEventListener('click', editSchedule);
+  // editTodaySchedule.addEventListener('click', editSchedule);
 
   getTodaySchedule.addEventListener('click', async () => {
     const allZoomLinks = document.querySelector('#allZoomLinks');
