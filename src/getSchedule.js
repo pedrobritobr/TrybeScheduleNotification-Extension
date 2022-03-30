@@ -12,14 +12,20 @@ function getLastScheduleDay() {
 function formatScheduleString(scheduleDayDiv) {
   const MANY_WHITE_SPACES = /\s\s\s\s+/;
   const NUMBER_OR_BRACKET = /^\d\d|^[[]/;
-  const ZOOM_PATTERN = /(^ [|] Zoom)|( [|] Zoom$)/gim;
+  const ZOOM_PATTERN = /(^ [|] Zoom$)/gim;
+  // const ZOOM_PATTERN = /(^ [|] Zoom)|( [|] Zoom$)/gim;
 
   // MONTAR PADRÃO ZOOM
   const agendaStrings = scheduleDayDiv.innerText.split('\n');
 
   // BY REMOVING STRINGS WITH SPACES
   const scheduleTrybeNoSpaces = agendaStrings
-    .filter((trybeString) => !trybeString.match(MANY_WHITE_SPACES));
+    .filter((trybeString) => {
+      if (trybeString.length > 2) {
+        return !trybeString.match(MANY_WHITE_SPACES);
+      }
+      return false;
+    });
 
   // JOIN ZOOM WITH TIME
   scheduleTrybeNoSpaces.forEach((e, index, baseArray) => {
