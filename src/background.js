@@ -34,7 +34,7 @@ try {
   chrome.runtime.onMessage.addListener((message) => {
     if (message === 'runAlarmsAnNotifications') {
       const mockAlarm = {
-        name: '19h40 às 20h - Fechamento | Zoom @@@ https://trybe.zoom.us/j/97400302016',
+        name: '19h40 às 20h - Fechamento | Zoom @@@ https://trybe.zoom.us/j/97927284204?pwd=dkp5SWttTWdFQjZZQTc0Qy8yZ1FWUT09',
       };
       fireAlarm(mockAlarm);
       return true;

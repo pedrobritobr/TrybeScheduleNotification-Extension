@@ -60,11 +60,15 @@ function getTrybeHours(trybeSchedule) {
   });
 }
 
-function switchTheme(e) {
-  if (e.target.checked) {
+function switchTheme() {
+  const { theme } = document.querySelector('html').dataset;
+
+  if (theme === 'light') {
     document.documentElement.setAttribute('data-theme', 'dark');
+    chrome.storage.sync.set({ datatheme: 'dark' });
   } else {
     document.documentElement.setAttribute('data-theme', 'light');
+    chrome.storage.sync.set({ datatheme: 'light' });
   }
 }
 
@@ -84,6 +88,10 @@ function firstChildOfBody() {
 }
 
 async function reloadScheduleSaved() {
+  const { datatheme } = await chrome.storage.sync.get('datatheme');
+  console.log('datatheme: ', datatheme);
+  document.documentElement.setAttribute('data-theme', datatheme);
+
   const { scheduleAndLinks } = await chrome.storage.sync.get(['scheduleAndLinks']);
   if (scheduleAndLinks) {
     createTabela(scheduleAndLinks);
@@ -91,12 +99,14 @@ async function reloadScheduleSaved() {
 }
 
 async function editSchedule() {
+  const tabela = document.querySelector('#tabela');
   const divsSchedule = document.querySelectorAll('.schedule');
+
   if (divsSchedule[0].lastChild.localName !== 'input') {
-    const tabela = document.querySelector('#tabela');
     const { allZoomLinks } = await chrome.storage.sync.get(['allZoomLinks']);
 
-    const allZoomLinksDiv = document.createElement('p');
+    const allZoomLinksDiv = document.createElement('div');
+    allZoomLinksDiv.id = 'allZoomLinks';
 
     allZoomLinks.forEach((zoomLink) => {
       const zoomElement = createZoomLinkElement(zoomLink);
@@ -129,7 +139,13 @@ try {
   editTodaySchedule.addEventListener('click', editSchedule);
 
   getTodaySchedule.addEventListener('click', async () => {
+    const allZoomLinks = document.querySelector('#allZoomLinks');
+    if (allZoomLinks) {
+      allZoomLinks.remove();
+    }
+
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
 
     if (!tab.url.includes('app.slack.com')) {
       firstChildOfBody();

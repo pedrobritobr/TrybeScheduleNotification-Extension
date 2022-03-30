@@ -8,6 +8,17 @@
 }
 
 :root {
+  --background: #212529ff;
+  --background-accent: #191d21ff;
+  --primary: rgb(209, 210, 211);
+  --switch-thumb: rgb(103, 112, 235);
+  --link: rgb(29, 155, 209);
+  --shadow: rgb(232, 232, 232);
+  --thumb-primmary: rgb(209, 210, 211);
+  --thumb-accent: rgb(167, 167, 167);
+}
+
+[data-theme='light'] {
   --background: #f8f8f8ff;
   --background-accent: white;
   --primary: black;
@@ -18,17 +29,6 @@
   --shadow: rgb(223, 206, 206);
   --thumb-primmary: rgb(136, 136, 136);
   --thumb-accent: rgb(85, 85, 85);
-}
-
-[data-theme='dark'] {
-  --background: #212529ff;
-  --background-accent: #191d21ff;
-  --primary: rgb(209, 210, 211);
-  --switch-thumb: rgb(103, 112, 235);
-  --link: rgb(29, 155, 209);
-  --shadow: rgb(232, 232, 232);
-  --thumb-primmary: rgb(209, 210, 211);
-  --thumb-accent: rgb(167, 167, 167);
 }
 
 body {
