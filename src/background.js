@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
 /* global chrome */
-async function savedAlarms() {
-  console.log('------ savedAlarms  ------');
-  console.log('HORA AGORA: ', Date());
-  console.log('HORA EPOCH: ', Date.now());
-  console.log('await chrome.alarms.getAll(): ', await chrome.alarms.getAll());
-}
+// async function savedAlarms() {
+//   console.log('------ savedAlarms  ------');
+//   console.log('HORA AGORA: ', Date());
+//   console.log('HORA EPOCH: ', Date.now());
+//   console.log('await chrome.alarms.getAll(): ', await chrome.alarms.getAll());
+// }
 
 async function fireAlarm({ name, scheduledTime }) {
   const TEN_SECONDS_AGO = Date.now() - 10000;
@@ -13,16 +13,16 @@ async function fireAlarm({ name, scheduledTime }) {
   if (TEN_SECONDS_AGO < scheduledTime) {
     const [taskName, zoomLinkTask] = name.split('@@@');
     const taskInformation = { taskName, zoomLinkTask };
-  
+
     await chrome.storage.sync.set({ taskInformation });
-  
+
     const popupHeight = 280;
     const popupWidth = 450;
-  
+
     const monitors = await chrome.system.display.getInfo();
     const { bounds: pMonitor } = monitors.find((monitor) => monitor.isPrimary);
     const { height: monitorHeight, width: monitorWidth } = pMonitor;
-  
+
     chrome.windows.create({
       url: './src/notification-page/index.html',
       focused: true,

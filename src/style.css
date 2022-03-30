@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  width: 320px;
+  /* width: 320px; */
   background-color: var(--background);
   font-family: Lato;
 }
@@ -32,6 +32,7 @@
 }
 
 body {
+  width: 320px;
   display: flex;
   flex-flow: column nowrap;
   align-content: center;
@@ -43,6 +44,7 @@ h1,
 h3 {
   color: var(--primary);
   text-align: center;
+  margin: 10px 30px;
 }
 
 #tabela {
@@ -145,4 +147,28 @@ h3 {
   -webkit-transform: translateX(25px);
   -ms-transform: translateX(25px);
   transform: translateX(25px);
+}
+
+header {
+  max-width: 90%;
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+header a {
+  display: block;
+}
+
+header {
+  max-width: 90%;
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-end;
 }
