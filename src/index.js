@@ -89,13 +89,10 @@ function firstChildOfBody() {
 
 async function reloadScheduleSaved() {
   const { datatheme } = await chrome.storage.sync.get('datatheme');
-  console.log('datatheme: ', datatheme);
   document.documentElement.setAttribute('data-theme', datatheme);
 
   const { scheduleAndLinks } = await chrome.storage.sync.get(['scheduleAndLinks']);
-  if (scheduleAndLinks) {
-    createTabela(scheduleAndLinks);
-  }
+  if (scheduleAndLinks) createTabela(scheduleAndLinks);
 }
 
 async function editSchedule() {
@@ -134,7 +131,7 @@ try {
 
   document.querySelector('#switch-input').addEventListener('click', switchTheme);
   const getTodaySchedule = document.getElementById('getTodaySchedule');
-  const editTodaySchedule = document.getElementById('editTodaySchedule');
+  // const editTodaySchedule = document.getElementById('editTodaySchedule');
 
   // editTodaySchedule.addEventListener('click', editSchedule);
 
