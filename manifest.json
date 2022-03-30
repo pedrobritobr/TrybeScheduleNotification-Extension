@@ -1,6 +1,6 @@
 {
-  "name": "Trybe Clock - test",
-  "description": "gets agenda from slack",
+  "name": "Trybe Schedule Notification",
+  "description": "Gets agenda from slack, 2 minutes before each task, a popup window appears with task name and zoom link (when exists)",
   "version": "1.0.0",
   "manifest_version": 3,
   "action": {
