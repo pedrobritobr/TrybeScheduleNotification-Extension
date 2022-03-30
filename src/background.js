@@ -22,6 +22,7 @@ async function fireAlarm(actualAlarm) {
 
   chrome.windows.create({
     url: './src/notification-page/index.html',
+    focused: true,
     height: popupHeight,
     width: popupWidth,
     left: (monitorWidth / 2) - (popupWidth / 2),

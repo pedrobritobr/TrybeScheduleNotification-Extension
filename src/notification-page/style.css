@@ -5,8 +5,12 @@ body {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   height: 90vh;
+  /* background-image: url("./4P4M.gif"); */
+  /* background-size: 280px 280px; */
+  /* background-position: center; Center the image */
+  /* background-repeat: no-repeat; Do not repeat the image */
 }
 
 h1 {
@@ -14,7 +18,27 @@ h1 {
   text-align-last: center;
 }
 
+@keyframes progress-bar {
+  from {
+    background-color: rgb(49, 62, 73);
+    width: 90vw;
+  }
+  to {
+    width: 0vw;
+    background-color: rgb(86, 92, 99);
+  }
+}
+
+#barra {
+  height: 4vh;
+  border-radius: 10px;
+  animation-name: progress-bar;
+  animation-duration: 20s;
+  animation-timing-function: linear;
+}
+
 a {
-  text-decoration: none;
-  color: white
+  color: white;
+  text-align: center;
+  text-align-last: center;
 }

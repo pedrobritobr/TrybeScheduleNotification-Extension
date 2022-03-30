@@ -1,14 +1,23 @@
 /* global chrome */
 
-function createZoomLinkTaskATag(zoomLinkTask) {
-  const zoomLinkTag = document.getElementById('zoomLink');
-  zoomLinkTag.innerText = '';
+function aTag(zoomLinkTask) {
   const aTagZoomLink = document.createElement('a');
-  aTagZoomLink.innerText = zoomLinkTask;
+  aTagZoomLink.innerText = 'link do zoom';
   aTagZoomLink.href = zoomLinkTask;
   aTagZoomLink.target = '_blank';
   aTagZoomLink.rel = 'noreferrer noopener';
-  zoomLinkTag.appendChild(aTagZoomLink);
+  return aTagZoomLink;
+}
+
+function createZoomLinkTaskATag(zoomLinkTask) {
+  const zoomLinkTag = document.getElementById('zoomLink');
+  zoomLinkTag.innerText = '';
+  // const btn = document.createElement('button');
+
+  // btn.innerText = 'link do zoom';
+  // btn.appendChild(aTag(zoomLinkTask));
+  // zoomLinkTag.appendChild(btn);
+  zoomLinkTag.appendChild(aTag(zoomLinkTask));
   return null;
 }
 
@@ -29,7 +38,7 @@ window.onload = async () => {
   const { taskInformation } = await chrome.storage.sync.get('taskInformation');
   const { taskName, zoomLinkTask } = taskInformation;
   // const taskName = '19h40 às 20h - Fechamento | Zoom';
-  // const zoomLinkTask = 'https://trybe.zoom.us/j/97400302016';
+  // const zoomLinkTask = 'https://trybe.zoom.us/j/97927284204?pwd=dkp5SWttTWdFQjZZQTc0Qy8yZ1FWUT09';
   // const zoomLinkTask = '';
 
   createTaskNameH1Tag(taskName);
@@ -43,3 +52,7 @@ window.onload = async () => {
   alarme.volume = 0.4;
   alarme.play();
 };
+
+setTimeout(() => {
+  window.close();
+}, 19700);

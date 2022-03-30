@@ -146,7 +146,6 @@ try {
 
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-
     if (!tab.url.includes('app.slack.com')) {
       firstChildOfBody();
       return null;
