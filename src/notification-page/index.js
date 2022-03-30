@@ -2,21 +2,21 @@
 
 function aTag(zoomLinkTask) {
   const aTagZoomLink = document.createElement('a');
-  aTagZoomLink.innerText = 'link do zoom';
   aTagZoomLink.href = zoomLinkTask;
   aTagZoomLink.target = '_blank';
   aTagZoomLink.rel = 'noreferrer noopener';
+
+  const btnZoomLink = document.createElement('button');
+  btnZoomLink.innerText = 'link do zoom';
+  btnZoomLink.id = 'zoomLinkBtn';
+  aTagZoomLink.appendChild(btnZoomLink);
   return aTagZoomLink;
 }
 
 function createZoomLinkTaskATag(zoomLinkTask) {
   const zoomLinkTag = document.getElementById('zoomLink');
   zoomLinkTag.innerText = '';
-  // const btn = document.createElement('button');
 
-  // btn.innerText = 'link do zoom';
-  // btn.appendChild(aTag(zoomLinkTask));
-  // zoomLinkTag.appendChild(btn);
   zoomLinkTag.appendChild(aTag(zoomLinkTask));
   return null;
 }
