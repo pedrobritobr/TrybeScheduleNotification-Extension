@@ -12,7 +12,11 @@ function getLastScheduleDay() {
 function formatScheduleString(scheduleDayDiv) {
   const MANY_WHITE_SPACES = /\s\s\s\s+/;
   const NUMBER_OR_BRACKET = /^\d\d|^[[]/;
+<<<<<<< Updated upstream
   const ZOOM_PATTERN = /(^ [|] Zoom)/gim;
+=======
+  const ZOOM_PATTERN = /(^ [|] Zoom$)/gim;
+>>>>>>> Stashed changes
   // const ZOOM_PATTERN = /(^ [|] Zoom)|( [|] Zoom$)/gim;
 
   // MONTAR PADRÃO ZOOM

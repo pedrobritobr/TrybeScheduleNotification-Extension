@@ -1,5 +1,6 @@
 /* global chrome */
 
+// AUXILIAR FUNCTIONS
 function createZoomLinkElement(zoomLink) {
   const aLinkZoom = document.createElement('a');
   aLinkZoom.innerText = 'Zoom';
@@ -10,6 +11,31 @@ function createZoomLinkElement(zoomLink) {
   return aLinkZoom;
 }
 
+function returnTimestamp({ scheduleHour = 0, scheduleMinute = 0 }) {
+  const mes = new Date().getMonth();
+  const dia = new Date().getDate();
+  const ano = new Date().getFullYear();
+
+  const dateString = new Date(ano, mes, dia, scheduleHour, (+scheduleMinute) - 2, 0);
+  return Date.parse(dateString);
+}
+
+function firstChildOfBody() {
+  const pTag = document.createElement('p');
+
+  pTag.innerText = 'Você está fora do slack!';
+  pTag.id = 'outOfSlack';
+  pTag.style['background-color'] = '#F5A8A8';
+  pTag.style['font-size'] = '18px';
+  pTag.style['text-align'] = 'center';
+
+  const body = document.querySelector('body');
+  const bodyFirstChild = body.firstChild;
+
+  body.insertBefore(pTag, bodyFirstChild);
+}
+
+// MAIN FUNCTIONS
 const createTabela = (trybeSchedule) => {
   const tabela = document.getElementById('tabela');
   tabela.style.display = 'flex';
@@ -30,15 +56,6 @@ const createTabela = (trybeSchedule) => {
     tabela.appendChild(divForSchedule);
   });
 };
-
-function returnTimestamp({ scheduleHour = 0, scheduleMinute = 0 }) {
-  const mes = new Date().getMonth();
-  const dia = new Date().getDate();
-  const ano = new Date().getFullYear();
-
-  const dateString = new Date(ano, mes, dia, scheduleHour, (+scheduleMinute) - 2, 0);
-  return Date.parse(dateString);
-}
 
 function createAlarm(eventTime, event, zoomLink) {
   if (eventTime > Date.now()) {
@@ -62,39 +79,20 @@ function getTrybeHours(trybeSchedule) {
 
 function switchTheme() {
   const { theme } = document.querySelector('html').dataset;
+  const githublogo = document.getElementById('github-logo');
 
   if (theme === 'light') {
     document.documentElement.setAttribute('data-theme', 'dark');
     chrome.storage.sync.set({ datatheme: 'dark' });
+    githublogo.src = '../icons/github-white-svgrepo-com.svg';
   } else {
+    githublogo.src = '../icons/github-black-svgrepo-com.svg';
     document.documentElement.setAttribute('data-theme', 'light');
     chrome.storage.sync.set({ datatheme: 'light' });
   }
 }
 
-function firstChildOfBody() {
-  const pTag = document.createElement('p');
-
-  pTag.innerText = 'Você está fora do slack!';
-  pTag.id = 'outOfSlack';
-  pTag.style['background-color'] = '#F5A8A8';
-  pTag.style['font-size'] = '18px';
-  pTag.style['text-align'] = 'center';
-
-  const body = document.querySelector('body');
-  const bodyFirstChild = body.firstChild;
-
-  body.insertBefore(pTag, bodyFirstChild);
-}
-
-async function reloadScheduleSaved() {
-  const { datatheme } = await chrome.storage.sync.get('datatheme');
-  document.documentElement.setAttribute('data-theme', datatheme);
-
-  const { scheduleAndLinks } = await chrome.storage.sync.get(['scheduleAndLinks']);
-  if (scheduleAndLinks) createTabela(scheduleAndLinks);
-}
-
+/*
 async function editSchedule() {
   const tabela = document.querySelector('#tabela');
   const divsSchedule = document.querySelectorAll('.schedule');
@@ -124,6 +122,22 @@ async function editSchedule() {
       schedule.appendChild(zoomLinkInput);
     });
   }
+}
+*/
+
+async function reloadScheduleSaved() {
+  const { datatheme } = await chrome.storage.sync.get('datatheme');
+  document.documentElement.setAttribute('data-theme', datatheme);
+  const githublogo = document.getElementById('github-logo');
+
+  if (datatheme === 'light') {
+    githublogo.src = '../icons/github-black-svgrepo-com.svg';
+  } else {
+    githublogo.src = '../icons/github-white-svgrepo-com.svg';
+  }
+
+  const { scheduleAndLinks } = await chrome.storage.sync.get(['scheduleAndLinks']);
+  if (scheduleAndLinks) createTabela(scheduleAndLinks);
 }
 
 try {
