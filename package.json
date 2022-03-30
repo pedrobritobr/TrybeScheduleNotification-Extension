@@ -1,6 +1,6 @@
 {
-  "name": "trybeclock",
-  "version": "0.1.0",
+  "name": "trybe-schedule-notification",
+  "version": "1.0.0",
   "description": "gets agenda from slack",
   "main": "index.js",
   "scripts": {
