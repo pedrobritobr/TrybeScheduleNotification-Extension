@@ -24,7 +24,7 @@ git clone git@github.com:pedrobritobr/TrybeScheduleNotification-Extension.git
 <br>
 <br>
 
-2. Acesse a página de Extensões:  
+2. Acesse a página de Extensões Instaladas:  
 Digite na barra de endereço/pesquisa
 ```
 chrome://extensions
