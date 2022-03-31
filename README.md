@@ -14,10 +14,6 @@ Extensão para [navegadores base chromium](https://en.m.wikipedia.org/wiki/Chrom
 
 1. Faça o clone do repositório ou o download em .zip:  
 ```sh
-git clone https://github.com/pedrobritobr/TrybeScheduleNotification-Extension.git
-```  
-ou  
-```sh
 git clone git@github.com:pedrobritobr/TrybeScheduleNotification-Extension.git
 ```
 &emsp;&emsp;<img src="./images/screenshots/01_git_clone.png" width="400" alt="git clone">
