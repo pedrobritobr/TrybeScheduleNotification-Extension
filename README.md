@@ -40,6 +40,8 @@ chrome://extensions
 
 &emsp;&emsp;<img src="./images/screenshots/03_tudo_ok.png" width="400" alt="git clone">
 
+### :rotating_light: ***Não (re)mova a pasta raíz de lugar, senão o navegador não carregará a extensão. Tendo que reinstalar apontando para o novo caminho!***
+
 ## <a id="uso"></a> Uso
 ## <a id="agradecimentos"></a> Agradecimentos
 ## <a id="faq"></a> FAQ
