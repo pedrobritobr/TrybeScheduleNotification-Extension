@@ -16,7 +16,7 @@
     "service_worker": "./src/background.js",
     "type": "module"
   },
-  "permissions": ["alarms", "activeTab", "scripting", "storage", "notifications", "system.display"],
+  "permissions": ["alarms", "activeTab", "scripting", "storage", "system.display"],
   "content_scripts": [
     {
       "matches": ["https://app.slack.com/*"],

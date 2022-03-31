@@ -13,7 +13,6 @@ function formatScheduleString(scheduleDayDiv) {
   const MANY_WHITE_SPACES = /\s\s\s\s+/;
   const NUMBER_OR_BRACKET = /^\d\d|^[[]/;
   const ZOOM_PATTERN = /(^ [|] Zoom)/gim;
-  // const ZOOM_PATTERN = /(^ [|] Zoom)|( [|] Zoom$)/gim;
 
   // MONTAR PADRÃO ZOOM
   const agendaStrings = scheduleDayDiv.innerText.split('\n');
@@ -101,8 +100,8 @@ function joinScheduleWithLink(trybeSchedule, zoomLinks) {
 }
 
 function main() {
-  console.log('-------------- INICIANDO TRYBE HOURS -------------');
-  console.log('-------------- INICIANDO TRYBE HOURS -------------');
+  console.log('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
+  console.log('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
 
   const lastScheduleDay = getLastScheduleDay();
   console.log('Agenda from Slack: ', lastScheduleDay);
@@ -118,8 +117,8 @@ function main() {
 
   chrome.storage.sync.set({ scheduleAndLinks });
 
-  console.log('-------------- FECHANDO TRYBE HOURS -------------');
-  console.log('-------------- FECHANDO TRYBE HOURS -------------');
+  console.log('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
+  console.log('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
   return scheduleAndLinks;
 }
 
