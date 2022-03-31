@@ -9,7 +9,7 @@ Extensão para [navegadores base chromium](https://en.m.wikipedia.org/wiki/Chrom
 
 ## <a id="instalação"></a> Instalação
 
-> Enquanto espero a aprovação da Google para publicar a extensão na [Google Web Store](https://chrome.google.com/webstore/category/extensions?hl=pt-BR "Google Web Store") faça os seguintes passos:
+> Enquanto espero a aprovação da Google para publicar a extensão na [Google Web Store](https://chrome.google.com/webstore/category/extensions?hl=pt-BR "Google Web Store") caso queira experimentar antecipadamente faça os seguintes passos:
 
 
 1. Faça o clone do repositório ou o download em .zip:  
