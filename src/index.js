@@ -84,9 +84,9 @@ function switchTheme() {
   if (theme === 'light') {
     document.documentElement.setAttribute('data-theme', 'dark');
     chrome.storage.sync.set({ datatheme: 'dark' });
-    githublogo.src = '../icons/github-white-svgrepo-com.svg';
+    githublogo.src = '../images/icons/github-white-svgrepo-com.svg';
   } else {
-    githublogo.src = '../icons/github-black-svgrepo-com.svg';
+    githublogo.src = '../images/icons/github-black-svgrepo-com.svg';
     document.documentElement.setAttribute('data-theme', 'light');
     chrome.storage.sync.set({ datatheme: 'light' });
   }
@@ -131,9 +131,9 @@ async function reloadScheduleSaved() {
   const githublogo = document.getElementById('github-logo');
 
   if (datatheme === 'light') {
-    githublogo.src = '../icons/github-black-svgrepo-com.svg';
+    githublogo.src = '../images/icons/github-black-svgrepo-com.svg';
   } else {
-    githublogo.src = '../icons/github-white-svgrepo-com.svg';
+    githublogo.src = '../images/icons/github-white-svgrepo-com.svg';
   }
 
   const { scheduleAndLinks } = await chrome.storage.sync.get(['scheduleAndLinks']);
