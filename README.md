@@ -42,3 +42,4 @@ chrome://extensions
 
 ## <a id="uso"></a> Uso
 ## <a id="agradecimentos"></a> Agradecimentos
+## <a id="faq"></a> FAQ
