@@ -43,6 +43,17 @@ function saveAllZoomLinkAsBackup(aTags) {
   chrome.storage.sync.set({ allZoomLinks });
 }
 
+function checkIfHaveLink(array, agenda) {
+  const checkArray = array.map((member) => {
+    const firstCheck = member.innerText.includes(agenda[0]);
+    const secondCheck = agenda[0].includes(member.innerText) && member.innerText;
+
+    return firstCheck || secondCheck;
+  });
+
+  return checkArray.some((check) => check);
+}
+
 function getZoomLinks(scheduleDayDiv) {
   const aTags = scheduleDayDiv.getElementsByTagName('a');
 
