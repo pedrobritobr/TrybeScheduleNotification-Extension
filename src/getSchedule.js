@@ -74,16 +74,11 @@ function getZoomLinks(scheduleDayDiv) {
       const uncle = e.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
       const grandUncle = e.parentElement.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
 
-      const comparison1 = brother.innerText.includes(agendaStrBeforeZoom[0]);
-      const comparison2 = agendaStrBeforeZoom[0].includes(brother.innerText) && brother.innerText;
-      const comparison3 = uncle.innerText.includes(agendaStrBeforeZoom[0]);
-      const comparison4 = agendaStrBeforeZoom[0].includes(uncle.innerText) && uncle.innerText;
-      const comparison5 = grandUncle.innerText.includes(agendaStrBeforeZoom[0]);
-      const comparison6 = agendaStrBeforeZoom[0]
-        .includes(grandUncle.innerText) && grandUncle.innerText;
+      const family = [ brother, uncle, grandUncle ];
 
-      if (comparison1 || comparison2 || comparison3
-        || comparison4 || comparison5 || comparison6) {
+      const checkFamily = checkIfHaveLink(family, agendaStrBeforeZoom);
+
+      if (checkFamily) {
         agendaStrBeforeZoom = agendaStrBeforeZoom.filter((_e, i) => i !== 0);
         zoomLinks.push(e.href);
         return null;
