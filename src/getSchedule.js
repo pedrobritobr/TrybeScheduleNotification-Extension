@@ -43,6 +43,16 @@ function saveAllZoomLinkAsBackup(aTags) {
   chrome.storage.sync.set({ allZoomLinks });
 }
 
+function getFamilyElements(element) {
+  const brother = element.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
+  const uncle = element.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
+  const grandUncle = element.parentElement.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
+
+  const family = [ brother, uncle, grandUncle ];
+
+  return family;
+}
+
 function checkIfHaveLink(array, agenda) {
   const checkArray = array.map((member) => {
     const firstCheck = member.innerText.includes(agenda[0]);
