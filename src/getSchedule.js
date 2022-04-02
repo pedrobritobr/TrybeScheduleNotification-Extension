@@ -63,7 +63,7 @@ function getFamilyElements(element) {
 function checkIfHaveLink(array, agenda) {
   const checkArray = array.map((member) => {
     const firstCheck = member.innerText.includes(agenda[0]);
-    const secondCheck = agenda[0].includes(member.innerText) && member.innerText;
+    const secondCheck = agenda[0].includes(member.innerText);
 
     return firstCheck || secondCheck;
   });
