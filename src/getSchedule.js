@@ -76,10 +76,7 @@ function getZoomLinks(scheduleDayDiv) {
 
   saveAllZoomLinkAsBackup(aTags);
 
-  const allAgendaStrings = scheduleDayDiv.innerText.split('\n');
-
-  const agendaStringsWhereIsZoom = allAgendaStrings.filter((schedule) => schedule.includes('Zoom'));
-  let agendaStrBeforeZoom = agendaStringsWhereIsZoom.map((zoomString) => zoomString.split('Zoom').at(0));
+  let agendaStrBeforeZoom = getAllAgendaStrings(scheduleDayDiv);
 
   const zoomLinks = [];
 
