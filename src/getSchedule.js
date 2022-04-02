@@ -84,7 +84,7 @@ function getZoomLinks(scheduleDayDiv) {
       const checkElements = checkIfHaveLink(elements, agendaStrBeforeZoom);
 
       if (checkElements) {
-        agendaStrBeforeZoom = agendaStrBeforeZoom.filter((_e, i) => i !== 0);
+        agendaStrBeforeZoom.shift();
         zoomLinks.push(e.href);
       }
     }
