@@ -72,13 +72,13 @@ function checkIfHaveLink(array, agenda) {
 }
 
 function getZoomLinks(scheduleDayDiv) {
-  const aTags = scheduleDayDiv.getElementsByTagName('a');
+  const aTags = [...scheduleDayDiv.getElementsByTagName('a')];
   const zoomLinks = [];
   let agendaStrBeforeZoom = getAllAgendaStrings(scheduleDayDiv);
 
   saveAllZoomLinkAsBackup(aTags);
 
-  Array.from(aTags).forEach((e) => {
+  aTags.forEach((e) => {
     if (e.href.includes('zoom.us')) {
       const elements = getFamilyElements(e);
       const checkElements = checkIfHaveLink(elements, agendaStrBeforeZoom);
