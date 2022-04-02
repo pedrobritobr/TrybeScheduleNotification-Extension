@@ -43,6 +43,13 @@ function saveAllZoomLinkAsBackup(aTags) {
   chrome.storage.sync.set({ allZoomLinks });
 }
 
+function getAllAgendaStrings(scheduleDayDiv) {
+  const allAgendaStrings = scheduleDayDiv.innerText.split('\n');
+
+  const agendaStringsWhereIsZoom = allAgendaStrings.filter((schedule) => schedule.includes('Zoom'));
+  return agendaStrBeforeZoom = agendaStringsWhereIsZoom.map((zoomString) => zoomString.split('Zoom').at(0));
+}
+
 function getFamilyElements(element) {
   const brother = element.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
   const uncle = element.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
