@@ -81,10 +81,8 @@ function getZoomLinks(scheduleDayDiv) {
       if (checkFamily) {
         agendaStrBeforeZoom = agendaStrBeforeZoom.filter((_e, i) => i !== 0);
         zoomLinks.push(e.href);
-        return null;
       }
     }
-    return null;
   });
   return zoomLinks;
 }
