@@ -66,7 +66,7 @@ function getZoomLinks(scheduleDayDiv) {
 
   const zoomLinks = [];
 
-  Array.from(aTags).map((e) => {
+  Array.from(aTags).forEach((e) => {
     if (!agendaStrBeforeZoom[0]) return null;
 
     if (e.href.includes('zoom.us')) {
