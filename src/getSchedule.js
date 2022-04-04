@@ -43,43 +43,51 @@ function saveAllZoomLinkAsBackup(aTags) {
   chrome.storage.sync.set({ allZoomLinks });
 }
 
-function getZoomLinks(scheduleDayDiv) {
-  const aTags = scheduleDayDiv.getElementsByTagName('a');
-
-  saveAllZoomLinkAsBackup(aTags);
-
+function getAllAgendaStrings(scheduleDayDiv) {
   const allAgendaStrings = scheduleDayDiv.innerText.split('\n');
 
   const agendaStringsWhereIsZoom = allAgendaStrings.filter((schedule) => schedule.includes('Zoom'));
-  let agendaStrBeforeZoom = agendaStringsWhereIsZoom.map((zoomString) => zoomString.split('Zoom').at(0));
+  return agendaStrBeforeZoom = agendaStringsWhereIsZoom.map((zoomString) => zoomString.split('Zoom').at(0));
+}
 
+function getFamilyElements(element) {
+  const brother = element.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
+  const uncle = element.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
+  const grandUncle = element.parentElement.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
+
+  const family = [ brother, uncle, grandUncle ];
+
+  return family;
+}
+
+function checkIfHaveLink(array, agenda) {
+  return array.some((member) => {
+    const firstCheck = member.innerText.includes(agenda[0]);
+    const secondCheck = agenda[0].includes(member.innerText);
+
+    return firstCheck || secondCheck;
+  });
+}
+
+function getZoomLinks(scheduleDayDiv) {
+  const aTags = [...scheduleDayDiv.getElementsByTagName('a')];
   const zoomLinks = [];
+  let agendaStrBeforeZoom = getAllAgendaStrings(scheduleDayDiv);
 
-  Array.from(aTags).map((e) => {
-    if (!agendaStrBeforeZoom[0]) return null;
+  saveAllZoomLinkAsBackup(aTags);
 
+  aTags.forEach((e) => {
     if (e.href.includes('zoom.us')) {
-      const brother = e.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
-      const uncle = e.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
-      const grandUncle = e.parentElement.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
+      const elements = getFamilyElements(e);
+      const checkElements = checkIfHaveLink(elements, agendaStrBeforeZoom);
 
-      const comparison1 = brother.innerText.includes(agendaStrBeforeZoom[0]);
-      const comparison2 = agendaStrBeforeZoom[0].includes(brother.innerText) && brother.innerText;
-      const comparison3 = uncle.innerText.includes(agendaStrBeforeZoom[0]);
-      const comparison4 = agendaStrBeforeZoom[0].includes(uncle.innerText) && uncle.innerText;
-      const comparison5 = grandUncle.innerText.includes(agendaStrBeforeZoom[0]);
-      const comparison6 = agendaStrBeforeZoom[0]
-        .includes(grandUncle.innerText) && grandUncle.innerText;
-
-      if (comparison1 || comparison2 || comparison3
-        || comparison4 || comparison5 || comparison6) {
-        agendaStrBeforeZoom = agendaStrBeforeZoom.filter((_e, i) => i !== 0);
+      if (checkElements) {
+        agendaStrBeforeZoom.shift();
         zoomLinks.push(e.href);
-        return null;
       }
     }
-    return null;
   });
+
   return zoomLinks;
 }
 
