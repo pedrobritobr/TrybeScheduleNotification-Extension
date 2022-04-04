@@ -12,12 +12,7 @@ function getLastScheduleDay() {
 function formatScheduleString(scheduleDayDiv) {
   const MANY_WHITE_SPACES = /\s\s\s\s+/;
   const NUMBER_OR_BRACKET = /^\d\d|^[[]/;
-<<<<<<< Updated upstream
   const ZOOM_PATTERN = /(^ [|] Zoom)/gim;
-=======
-  const ZOOM_PATTERN = /(^ [|] Zoom$)/gim;
->>>>>>> Stashed changes
-  // const ZOOM_PATTERN = /(^ [|] Zoom)|( [|] Zoom$)/gim;
 
   // MONTAR PADRÃO ZOOM
   const agendaStrings = scheduleDayDiv.innerText.split('\n');
@@ -68,16 +63,16 @@ function getZoomLinks(scheduleDayDiv) {
       const uncle = e.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
       const grandUncle = e.parentElement.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
 
-      const comparision1 = brother.innerText.includes(agendaStrBeforeZoom[0]);
-      const comparision2 = agendaStrBeforeZoom[0].includes(brother.innerText) && brother.innerText;
-      const comparision3 = uncle.innerText.includes(agendaStrBeforeZoom[0]);
-      const comparision4 = agendaStrBeforeZoom[0].includes(uncle.innerText) && uncle.innerText;
-      const comparision5 = grandUncle.innerText.includes(agendaStrBeforeZoom[0]);
-      const comparision6 = agendaStrBeforeZoom[0]
+      const comparison1 = brother.innerText.includes(agendaStrBeforeZoom[0]);
+      const comparison2 = agendaStrBeforeZoom[0].includes(brother.innerText) && brother.innerText;
+      const comparison3 = uncle.innerText.includes(agendaStrBeforeZoom[0]);
+      const comparison4 = agendaStrBeforeZoom[0].includes(uncle.innerText) && uncle.innerText;
+      const comparison5 = grandUncle.innerText.includes(agendaStrBeforeZoom[0]);
+      const comparison6 = agendaStrBeforeZoom[0]
         .includes(grandUncle.innerText) && grandUncle.innerText;
 
-      if (comparision1 || comparision2 || comparision3
-        || comparision4 || comparision5 || comparision6) {
+      if (comparison1 || comparison2 || comparison3
+        || comparison4 || comparison5 || comparison6) {
         agendaStrBeforeZoom = agendaStrBeforeZoom.filter((_e, i) => i !== 0);
         zoomLinks.push(e.href);
         return null;
@@ -105,8 +100,8 @@ function joinScheduleWithLink(trybeSchedule, zoomLinks) {
 }
 
 function main() {
-  console.log('-------------- INICIANDO TRYBE HOURS -------------');
-  console.log('-------------- INICIANDO TRYBE HOURS -------------');
+  console.log('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
+  console.log('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
 
   const lastScheduleDay = getLastScheduleDay();
   console.log('Agenda from Slack: ', lastScheduleDay);
@@ -122,8 +117,8 @@ function main() {
 
   chrome.storage.sync.set({ scheduleAndLinks });
 
-  console.log('-------------- FECHANDO TRYBE HOURS -------------');
-  console.log('-------------- FECHANDO TRYBE HOURS -------------');
+  console.log('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
+  console.log('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
   return scheduleAndLinks;
 }
 

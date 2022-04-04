@@ -1,26 +1,22 @@
 {
-<<<<<<< Updated upstream
-  "name": "Trybe Schedule Notification - dev",
-=======
   "name": "Trybe Schedule Notification",
->>>>>>> Stashed changes
-  "description": "Gets agenda from slack, 2 minutes before each task, a popup window appears with task name and zoom link (when exists)",
+  "description": "Gets agenda from slack, 2 minutes before each task a popup window appears with task name and zoom link (when exists)",
   "version": "1.0.0",
   "manifest_version": 3,
   "action": {
     "default_popup": "./src/index.html"
   },
   "icons": {
-    "16": "./icons/128x128c.png",
-    "32": "./icons/128x128c.png",
-    "48": "./icons/128x128c.png",
-    "128": "./icons/128x128c.png"
+    "16": "./images/icons/128x128c.png",
+    "32": "./images/icons/128x128c.png",
+    "48": "./images/icons/128x128c.png",
+    "128": "./images/icons/128x128c.png"
   },
   "background": {
     "service_worker": "./src/background.js",
     "type": "module"
   },
-  "permissions": ["alarms", "activeTab", "scripting", "storage", "notifications", "system.display"],
+  "permissions": ["alarms", "activeTab", "scripting", "storage", "system.display"],
   "content_scripts": [
     {
       "matches": ["https://app.slack.com/*"],
