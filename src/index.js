@@ -16,8 +16,7 @@ function returnTimestamp({ scheduleHour = 0, scheduleMinute = 0 }) {
   const dia = new Date().getDate();
   const ano = new Date().getFullYear();
 
-  const dateString = new Date(ano, mes, dia, scheduleHour, (+scheduleMinute) - 2, 0);
-  return Date.parse(dateString);
+  return Date.UTC(ano, mes, dia, (+scheduleHour) + 3, (+scheduleMinute) - 2);
 }
 
 function firstChildOfBody() {
