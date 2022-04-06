@@ -47,7 +47,7 @@ function getAllAgendaStrings(scheduleDayDiv) {
   const allAgendaStrings = scheduleDayDiv.innerText.split('\n');
 
   const agendaStringsWhereIsZoom = allAgendaStrings.filter((schedule) => schedule.includes('Zoom'));
-  return agendaStrBeforeZoom = agendaStringsWhereIsZoom.map((zoomString) => zoomString.split('Zoom').at(0));
+  return agendaStringsWhereIsZoom.map((zoomString) => zoomString.split('Zoom').at(0));
 }
 
 function getFamilyElements(element) {
@@ -55,7 +55,7 @@ function getFamilyElements(element) {
   const uncle = element.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
   const grandUncle = element.parentElement.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
 
-  const family = [ brother, uncle, grandUncle ];
+  const family = [brother, uncle, grandUncle];
 
   return family;
 }
@@ -72,7 +72,7 @@ function checkIfHaveLink(array, agenda) {
 function getZoomLinks(scheduleDayDiv) {
   const aTags = [...scheduleDayDiv.getElementsByTagName('a')];
   const zoomLinks = [];
-  let agendaStrBeforeZoom = getAllAgendaStrings(scheduleDayDiv);
+  const agendaStrBeforeZoom = getAllAgendaStrings(scheduleDayDiv);
 
   saveAllZoomLinkAsBackup(aTags);
 
