@@ -1,4 +1,11 @@
 /* global chrome */
+function createZoomLinkBtn() {
+  const btnZoomLink = document.createElement('button');
+  btnZoomLink.innerText = 'link do zoom';
+  btnZoomLink.id = 'zoomLinkBtn';
+  btnZoomLink.addEventListener('click', () => window.close());
+  return btnZoomLink;
+}
 
 function aTag(zoomLinkTask) {
   const aTagZoomLink = document.createElement('a');
@@ -6,10 +13,7 @@ function aTag(zoomLinkTask) {
   aTagZoomLink.target = '_blank';
   aTagZoomLink.rel = 'noreferrer noopener';
 
-  const btnZoomLink = document.createElement('button');
-  btnZoomLink.innerText = 'link do zoom';
-  btnZoomLink.id = 'zoomLinkBtn';
-  aTagZoomLink.appendChild(btnZoomLink);
+  aTagZoomLink.appendChild(createZoomLinkBtn());
   return aTagZoomLink;
 }
 
@@ -23,10 +27,7 @@ function createZoomLinkTaskATag(zoomLinkTask) {
 
 function noZoomLink() {
   const zoomLinkTag = document.getElementById('zoomLink');
-  const thereIsNotLink = 'Não há link do zoom';
-
-  zoomLinkTag.innerText = thereIsNotLink;
-  return null;
+  zoomLinkTag.innerText = 'Não há link do zoom';
 }
 
 function createTaskNameH1Tag(taskName) {
