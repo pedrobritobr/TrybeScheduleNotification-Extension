@@ -55,4 +55,4 @@ window.onload = async () => {
 
 setTimeout(() => {
   window.close();
-}, 19700);
+}, 29700);

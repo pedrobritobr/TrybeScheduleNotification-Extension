@@ -35,7 +35,7 @@ h1 {
   height: 4vh;
   border-radius: 10px;
   animation-name: progress-bar;
-  animation-duration: 20s;
+  animation-duration: 30s;
   animation-timing-function: linear;
 }
 
@@ -54,7 +54,6 @@ a {
   color: #FFFFFF;
   font-family: Arial;
   font-size: 17px;
-  /* font-weight: 100; */
   padding: 12px 16px;
   box-shadow: 5px 5px 10px 0 #1F2328;
   cursor: pointer;
@@ -66,5 +65,4 @@ a {
 #zoomLinkBtn:hover {
   background: #3f4d58;
   transition: 0.2s;
-  /* background: #475766; */
 }
