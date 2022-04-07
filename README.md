@@ -44,10 +44,10 @@ chrome://extensions
 
 &emsp;&emsp;<img src="./images/screenshots/03_tudo_ok.png" width="400" alt="git clone">
 
-### :rotating_light: ***Não (re)mova a pasta raíz de lugar, senão o navegador não carregará a extensão. Tendo que reinstalar apontando para o novo caminho!***
-
+#### :rotating_light: ***Não (re)mova a pasta raíz de lugar, senão o navegador não carregará a extensão. Tendo que reinstalar apontando para o novo caminho!***
 ___
 ## <a id="uso"></a> Uso
+#### :rotating_light: ***A extensão foi feita para a versão web do slack, ela não funcionará com o app desktop***
 
 1. Abre o site do slack e navegue até o post com os horários do dia e clique no ícone da extensão.
 
@@ -76,8 +76,11 @@ R: Não, mas essa feature já está em desenvolvimento, e você poderá escolher
 >P: Os links do zoom estão errados, o que fazer?   
 R: Não há  oque fazer no momento, tem dias que isso pode acontecer, não se preocupe que o alerta será emitido, porém sem o link do zoom, ou com o link incorreto, então, cuidado!
 
->P: Preciso deixar o slack aberto?  
-R: Não, basta o navegador estar aberto.
+>P: Dá para usar com o app desktop?  
+R: Não, pois o método para pegar as informações é o web scarping, ou seja, coleta de dados de uma página web.  
+
+>P: Preciso deixar a págino do slack aberto?  
+R: Não, basta o navegador estar aberto.  
 
 >P: O alarme não tocou, o que fazer?  
 R: Me chame no slack para vermos o que aconteceu.
