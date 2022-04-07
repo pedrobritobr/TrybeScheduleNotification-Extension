@@ -5,6 +5,7 @@ function createZoomLinkElement(zoomLink) {
   const aLinkZoom = document.createElement('a');
   aLinkZoom.innerText = 'Zoom';
   aLinkZoom.href = zoomLink;
+  aLinkZoom.title = zoomLink;
   aLinkZoom.target = '_blank';
   aLinkZoom.rel = 'noreferrer noopener';
 
@@ -168,7 +169,9 @@ try {
       ({ scheduleAndLinks }) => {
         if (!scheduleAndLinks) {
           const alerta = window.alert;
-          alerta('Horários não encontrado, recarregue o slack e já para o momento da agenda');
+          alerta(`Horários não encontrado, recarregue o slack e já para o momento da agenda.
+          Se o erro persistir, entre em contato com Pedro Brito :)
+          `);
         } else {
           createTabela(scheduleAndLinks);
           getTrybeHours(scheduleAndLinks);

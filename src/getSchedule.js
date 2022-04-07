@@ -4,9 +4,10 @@ function getLastScheduleDay() {
   const BLOCK_KIT_RENDER = document.getElementsByClassName('p-block_kit_renderer__block_wrapper');
 
   const QUEM_REAGUE_COM = /(Quem )([a-zA-ZÀ-ÿ |,]+)( reage com)/gmi;
+  const REAAAAAGE = /Quem viu reaaaage!!!/gmi;
 
   return Array.from(BLOCK_KIT_RENDER)
-    .filter((e) => e.innerText.match(QUEM_REAGUE_COM)).at(-1);
+    .filter((e) => e.innerText.match(QUEM_REAGUE_COM) || e.innerText.match(REAAAAAGE)).at(-1);
 }
 
 function formatScheduleString(scheduleDayDiv) {
@@ -46,7 +47,7 @@ function saveAllZoomLinkAsBackup(aTags) {
 function getAllAgendaStrings(scheduleDayDiv) {
   const allAgendaStrings = scheduleDayDiv.innerText.split('\n');
 
-  const agendaStringsWhereIsZoom = allAgendaStrings.filter((schedule) => schedule.includes('Zoom'));
+  const agendaStringsWhereIsZoom = allAgendaStrings.filter((schedule) => schedule.includes('zoom') || schedule.includes('Zoom'));
   return agendaStringsWhereIsZoom.map((zoomString) => zoomString.split('Zoom').at(0));
 }
 
@@ -72,7 +73,10 @@ function checkIfHaveLink(array, agenda) {
 function getZoomLinks(scheduleDayDiv) {
   const aTags = [...scheduleDayDiv.getElementsByTagName('a')];
   const zoomLinks = [];
+
   const agendaStrBeforeZoom = getAllAgendaStrings(scheduleDayDiv);
+
+  if (!agendaStrBeforeZoom[0]) return false;
 
   saveAllZoomLinkAsBackup(aTags);
 
@@ -108,8 +112,8 @@ function joinScheduleWithLink(trybeSchedule, zoomLinks) {
 }
 
 function main() {
-  console.log('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
-  console.log('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
+  console.warn('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
+  console.warn('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
 
   const lastScheduleDay = getLastScheduleDay();
   console.log('Agenda from Slack: ', lastScheduleDay);
@@ -120,13 +124,18 @@ function main() {
   const trybeScheduleZoomLinks = getZoomLinks(lastScheduleDay, trybeScheduleStr);
   console.log('Important Zoom links: ', trybeScheduleZoomLinks);
 
+  if (!trybeScheduleZoomLinks) {
+    chrome.storage.sync.set({ scheduleAndLinks: null });
+    return null;
+  }
+
   const scheduleAndLinks = joinScheduleWithLink(trybeScheduleStr, trybeScheduleZoomLinks);
   console.log('scheduleAndLinks: ', scheduleAndLinks);
 
   chrome.storage.sync.set({ scheduleAndLinks });
 
-  console.log('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
-  console.log('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
+  console.warn('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
+  console.warn('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
   return scheduleAndLinks;
 }
 
