@@ -67,7 +67,7 @@ function createAlarm(eventTime, event, zoomLink) {
   }
 }
 
-function getTrybeHours(trybeSchedule) {
+function getTrybeHoursForCreateAlarms(trybeSchedule) {
   const REGEXX = /(\d\d[h])(\d\d|)/i;
 
   trybeSchedule.forEach(({ schedule, zoomLink }) => {
@@ -174,7 +174,7 @@ try {
           `);
         } else {
           createTabela(scheduleAndLinks);
-          getTrybeHours(scheduleAndLinks);
+          // getTrybeHoursForCreateAlarms(scheduleAndLinks);
         }
       },
     );

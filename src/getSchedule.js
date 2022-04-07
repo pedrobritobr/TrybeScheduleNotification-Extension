@@ -13,28 +13,26 @@ function getLastScheduleDay() {
 function formatScheduleString(scheduleDayDiv) {
   const MANY_WHITE_SPACES = /\s\s\s\s+/;
   const NUMBER_OR_BRACKET = /^\d\d|^[[]/;
-  const ZOOM_PATTERN = /(^ [|] Zoom)/gim;
 
   // MONTAR PADRÃO ZOOM
   const agendaStrings = scheduleDayDiv.innerText.split('\n');
 
+  const joinHourWithNextString = agendaStrings.map((str, index) => {
+    const matches = str.match(NUMBER_OR_BRACKET);
+    if (matches) {
+      return `${matches.input}${agendaStrings[index + 1]}`;
+    }
+    return '';
+  });
+
   // BY REMOVING STRINGS WITH SPACES
-  const scheduleTrybeNoSpaces = agendaStrings
+  return joinHourWithNextString
     .filter((trybeString) => {
       if (trybeString.length > 2) {
         return !trybeString.match(MANY_WHITE_SPACES);
       }
       return false;
     });
-
-  // JOIN ZOOM WITH TIME
-  scheduleTrybeNoSpaces.forEach((e, index, baseArray) => {
-    if (e.match(ZOOM_PATTERN)) {
-      baseArray[index - 1] = baseArray[index - 1].concat(e.substring(1));
-    }
-  });
-
-  return scheduleTrybeNoSpaces.filter((trybeString) => trybeString.match(NUMBER_OR_BRACKET));
 }
 
 function saveAllZoomLinkAsBackup(aTags) {
@@ -44,49 +42,23 @@ function saveAllZoomLinkAsBackup(aTags) {
   chrome.storage.sync.set({ allZoomLinks });
 }
 
-function getAllAgendaStrings(scheduleDayDiv) {
-  const allAgendaStrings = scheduleDayDiv.innerText.split('\n');
-
-  const agendaStringsWhereIsZoom = allAgendaStrings.filter((schedule) => schedule.includes('zoom') || schedule.includes('Zoom'));
-  return agendaStringsWhereIsZoom.map((zoomString) => zoomString.split('Zoom').at(0));
-}
-
-function getFamilyElements(element) {
-  const brother = element.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
-  const uncle = element.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
-  const grandUncle = element.parentElement.parentElement.previousElementSibling || { innerText: 'TEXTO_INVÁLIDO' };
-
-  const family = [brother, uncle, grandUncle];
-
-  return family;
-}
-
-function checkIfHaveLink(array, agenda) {
-  return array.some((member) => {
-    const firstCheck = member.innerText.includes(agenda[0]);
-    const secondCheck = agenda[0].includes(member.innerText);
-
-    return firstCheck || secondCheck;
-  });
-}
-
-function getZoomLinks(scheduleDayDiv) {
+function getZoomLinks(scheduleDayDiv, trybeEventsDay) {
   const aTags = [...scheduleDayDiv.getElementsByTagName('a')];
   const zoomLinks = [];
 
-  const agendaStrBeforeZoom = getAllAgendaStrings(scheduleDayDiv);
-
-  if (!agendaStrBeforeZoom[0]) return false;
+  console.log('trybeEventsDay: ', trybeEventsDay);
+  const trybeEventsDayWithZoom = trybeEventsDay.filter((event) => event.includes('oom'));
 
   saveAllZoomLinkAsBackup(aTags);
 
   aTags.forEach((e) => {
     if (e.href.includes('zoom.us')) {
-      const elements = getFamilyElements(e);
-      const checkElements = checkIfHaveLink(elements, agendaStrBeforeZoom);
-
-      if (checkElements) {
-        agendaStrBeforeZoom.shift();
+      console.log('e.previousElementSibling.innerText: ', e.previousElementSibling.innerText);
+      console.log('trybeEventsDayWithZoom[0]: ', trybeEventsDayWithZoom[0]);
+      const firstCheck = e.previousElementSibling.innerText.includes(trybeEventsDayWithZoom[0]);
+      const secondCheck = trybeEventsDayWithZoom[0].includes(e.previousElementSibling.innerText);
+      if (firstCheck || secondCheck) {
+        trybeEventsDayWithZoom.shift();
         zoomLinks.push(e.href);
       }
     }
@@ -99,10 +71,9 @@ function joinScheduleWithLink(trybeSchedule, zoomLinks) {
   const objSchedule = trybeSchedule.reduce((acc, schedule) => {
     const fullSchedule = { schedule };
 
-    if (schedule.includes('Zoom')) {
+    if (schedule.includes('oom')) {
       fullSchedule.zoomLink = zoomLinks.at(0);
-
-      zoomLinks = zoomLinks.filter((_link, index) => index !== 0);
+      zoomLinks.shift();
     }
 
     return [...acc, fullSchedule];
@@ -118,10 +89,10 @@ function main() {
   const lastScheduleDay = getLastScheduleDay();
   console.log('Agenda from Slack: ', lastScheduleDay);
 
-  const trybeScheduleStr = formatScheduleString(lastScheduleDay);
-  console.log('Hours of the day: ', trybeScheduleStr);
+  const trybeEventsDay = formatScheduleString(lastScheduleDay);
+  console.log('Hours of the day: ', trybeEventsDay);
 
-  const trybeScheduleZoomLinks = getZoomLinks(lastScheduleDay, trybeScheduleStr);
+  const trybeScheduleZoomLinks = getZoomLinks(lastScheduleDay, trybeEventsDay);
   console.log('Important Zoom links: ', trybeScheduleZoomLinks);
 
   if (!trybeScheduleZoomLinks) {
@@ -129,7 +100,7 @@ function main() {
     return null;
   }
 
-  const scheduleAndLinks = joinScheduleWithLink(trybeScheduleStr, trybeScheduleZoomLinks);
+  const scheduleAndLinks = joinScheduleWithLink(trybeEventsDay, trybeScheduleZoomLinks);
   console.log('scheduleAndLinks: ', scheduleAndLinks);
 
   chrome.storage.sync.set({ scheduleAndLinks });
