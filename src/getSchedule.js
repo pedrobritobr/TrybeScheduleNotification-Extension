@@ -1,18 +1,15 @@
 /* eslint-disable no-param-reassign */
 /* global chrome */
 function getLastScheduleDay() {
-  // const BLOCK_KIT_RENDER = document.getElementsByClassName('p-block_kit_renderer__block_wrapper');
-  const BLOCK_KIT_RENDER = document.getElementsByClassName('c-message_kit__labels');
-  // c-message_kit__labels
-
+  const KIT_HOVER = document.getElementsByClassName('c-message_kit__hover');
   const QUEM_REAGUE_COM = /(Quem )([a-zA-ZÀ-ÿ |,]+)( reage com)/gmi;
   const REAAAAAGE = /Quem viu reaaaage!!!/gmi;
 
   const matchesQuem = (e) => e.innerText.match(QUEM_REAGUE_COM);
   const matchesReaa = (e) => e.innerText.match(REAAAAAGE);
-  const includesFixed = (e) => e.innerText.includes('Fixado por');
+  const includesFixed = (e) => e.innerText.match(/^Fixado por/gmi);
 
-  return Array.from(BLOCK_KIT_RENDER)
+  return Array.from(KIT_HOVER)
     .filter((e) => (matchesQuem(e) || matchesReaa(e)) && includesFixed(e)).at(-1);
 }
 
