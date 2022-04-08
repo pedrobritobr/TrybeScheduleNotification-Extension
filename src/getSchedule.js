@@ -1,38 +1,39 @@
 /* eslint-disable no-param-reassign */
 /* global chrome */
 function getLastScheduleDay() {
-  const BLOCK_KIT_RENDER = document.getElementsByClassName('p-block_kit_renderer__block_wrapper');
-
+  const KIT_HOVER = document.getElementsByClassName('c-message_kit__hover');
   const QUEM_REAGUE_COM = /(Quem )([a-zA-ZÀ-ÿ |,]+)( reage com)/gmi;
   const REAAAAAGE = /Quem viu reaaaage!!!/gmi;
 
-  return Array.from(BLOCK_KIT_RENDER)
-    .filter((e) => e.innerText.match(QUEM_REAGUE_COM) || e.innerText.match(REAAAAAGE)).at(-1);
+  const matchesQuem = (e) => e.innerText.match(QUEM_REAGUE_COM);
+  const matchesReaa = (e) => e.innerText.match(REAAAAAGE);
+  const includesFixed = (e) => e.innerText.match(/^Fixado por/gmi);
+
+  return Array.from(KIT_HOVER)
+    .filter((e) => (matchesQuem(e) || matchesReaa(e)) && includesFixed(e)).at(-1);
 }
 
 function formatScheduleString(scheduleDayDiv) {
-  const MANY_WHITE_SPACES = /\s\s\s\s+/;
-  const NUMBER_OR_BRACKET = /^\d\d|^[[]/;
-  const ZOOM_PATTERN = /(^ [|] Zoom)/gim;
+  const NUMBER_OR_BRACKET = /^\d\d|^\[\*\]/;
+  const ONLY_BRACKET = /^\[\*\]$/;
+  const ZOOM_PATTERN = /(^\| Zoom)|(^\[ Zoom)|(^\[Zoom)/gim;
 
   // MONTAR PADRÃO ZOOM
-  const agendaStrings = scheduleDayDiv.innerText.split('\n');
+  const scheduleInStrings = scheduleDayDiv.innerText.split('\n');
 
-  // BY REMOVING STRINGS WITH SPACES
-  const scheduleTrybeNoSpaces = agendaStrings
-    .filter((trybeString) => {
-      if (trybeString.length > 2) {
-        return !trybeString.match(MANY_WHITE_SPACES);
-      }
-      return false;
-    });
+  const stringsNoStartsWithSpace = scheduleInStrings.map((string) => string.trim());
 
-  // JOIN ZOOM WITH TIME
-  scheduleTrybeNoSpaces.forEach((e, index, baseArray) => {
-    if (e.match(ZOOM_PATTERN)) {
-      baseArray[index - 1] = baseArray[index - 1].concat(e.substring(1));
+  stringsNoStartsWithSpace.forEach((str, index, baseArray) => {
+    if (str.match(ZOOM_PATTERN)) {
+      baseArray[index - 1] = baseArray[index - 1].concat(` ${str}`);
+    }
+    if (str.match(ONLY_BRACKET)) {
+      baseArray[index + 1] = str.concat(` ${baseArray[index + 1]}`);
     }
   });
+
+  const scheduleTrybeNoSpaces = stringsNoStartsWithSpace
+    .filter((trybeString) => trybeString.length > 3);
 
   return scheduleTrybeNoSpaces.filter((trybeString) => trybeString.match(NUMBER_OR_BRACKET));
 }
@@ -112,8 +113,8 @@ function joinScheduleWithLink(trybeSchedule, zoomLinks) {
 }
 
 function main() {
-  console.warn('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
-  console.warn('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
+  console.log('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
+  console.log('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
 
   const lastScheduleDay = getLastScheduleDay();
   console.log('Agenda from Slack: ', lastScheduleDay);
@@ -134,8 +135,8 @@ function main() {
 
   chrome.storage.sync.set({ scheduleAndLinks });
 
-  console.warn('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
-  console.warn('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
+  console.log('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
+  console.log('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
   return scheduleAndLinks;
 }
 
