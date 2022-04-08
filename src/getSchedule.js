@@ -14,28 +14,26 @@ function getLastScheduleDay() {
 }
 
 function formatScheduleString(scheduleDayDiv) {
-  const MANY_WHITE_SPACES = /\s\s\s\s+/;
-  const NUMBER_OR_BRACKET = /^\d\d|^[[]/;
-  const ZOOM_PATTERN = /(^ [|] Zoom)/gim;
+  const NUMBER_OR_BRACKET = /^\d\d|^\[\*\]/;
+  const ONLY_BRACKET = /^\[\*\]$/;
+  const ZOOM_PATTERN = /(^\| Zoom)|(^\[ Zoom)|(^\[Zoom)/gim;
 
   // MONTAR PADRÃO ZOOM
-  const agendaStrings = scheduleDayDiv.innerText.split('\n');
+  const scheduleInStrings = scheduleDayDiv.innerText.split('\n');
 
-  // BY REMOVING STRINGS WITH SPACES
-  const scheduleTrybeNoSpaces = agendaStrings
-    .filter((trybeString) => {
-      if (trybeString.length > 2) {
-        return !trybeString.match(MANY_WHITE_SPACES);
-      }
-      return false;
-    });
+  const stringsNoStartsWithSpace = scheduleInStrings.map((string) => string.trim());
 
-  // JOIN ZOOM WITH TIME
-  scheduleTrybeNoSpaces.forEach((e, index, baseArray) => {
-    if (e.match(ZOOM_PATTERN)) {
-      baseArray[index - 1] = baseArray[index - 1].concat(e.substring(1));
+  stringsNoStartsWithSpace.forEach((str, index, baseArray) => {
+    if (str.match(ZOOM_PATTERN)) {
+      baseArray[index - 1] = baseArray[index - 1].concat(` ${str}`);
+    }
+    if (str.match(ONLY_BRACKET)) {
+      baseArray[index + 1] = str.concat(` ${baseArray[index + 1]}`);
     }
   });
+
+  const scheduleTrybeNoSpaces = stringsNoStartsWithSpace
+    .filter((trybeString) => trybeString.length > 3);
 
   return scheduleTrybeNoSpaces.filter((trybeString) => trybeString.match(NUMBER_OR_BRACKET));
 }
@@ -115,8 +113,8 @@ function joinScheduleWithLink(trybeSchedule, zoomLinks) {
 }
 
 function main() {
-  console.warn('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
-  console.warn('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
+  console.log('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
+  console.log('-------------- INICIANDO TRYBE GET_SCHEDULE -------------');
 
   const lastScheduleDay = getLastScheduleDay();
   console.log('Agenda from Slack: ', lastScheduleDay);
@@ -137,8 +135,8 @@ function main() {
 
   chrome.storage.sync.set({ scheduleAndLinks });
 
-  console.warn('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
-  console.warn('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
+  console.log('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
+  console.log('-------------- FECHANDO TRYBE GET_SCHEDULE -------------');
   return scheduleAndLinks;
 }
 
