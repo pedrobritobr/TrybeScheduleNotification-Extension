@@ -1,12 +1,5 @@
 /* eslint-disable no-param-reassign */
 /* global chrome */
-// async function savedAlarms() {
-//   console.log('------ savedAlarms  ------');
-//   console.log('HORA AGORA: ', Date());
-//   console.log('HORA EPOCH: ', Date.now());
-//   console.log('await chrome.alarms.getAll(): ', await chrome.alarms.getAll());
-// }
-
 async function fireAlarm({ name, scheduledTime }) {
   const TEN_SECONDS_AGO = Date.now() - 10000;
 
@@ -23,7 +16,7 @@ async function fireAlarm({ name, scheduledTime }) {
     const { bounds: pMonitor } = monitors.find((monitor) => monitor.isPrimary);
     const { height: monitorHeight, width: monitorWidth } = pMonitor;
 
-    chrome.windows.create({
+    await chrome.windows.create({
       url: './src/notification-page/index.html',
       focused: true,
       height: popupHeight,
@@ -47,8 +40,6 @@ try {
   });
 
   chrome.alarms.onAlarm.addListener(fireAlarm);
-
-  // setInterval(savedAlarms, 10000);
 } catch (error) {
   console.log(error);
 }
