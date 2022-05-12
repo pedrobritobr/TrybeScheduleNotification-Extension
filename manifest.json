@@ -19,7 +19,7 @@
   "permissions": ["alarms", "activeTab", "scripting", "storage", "system.display"],
   "content_scripts": [
     {
-      "matches": ["https://app.slack.com/*"],
+      "matches": ["https://app.slack.com/*", "https://trybe.zoom.us/*"],
       "js": ["./src/content.js"]
     }
   ]
